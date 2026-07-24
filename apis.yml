@@ -1,7 +1,24 @@
 aid: blueocean
 name: BlueOcean
-description: BlueOcean is a company surfaced as a portfolio company of insight-partners and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: BlueOcean is a Context AI platform purpose-built for marketing teams. Its agentic
+  AI framework, Spark, combines brand, market, product, and customer context to help marketers
+  unlock creativity, accelerate go-to-market, and deliver measurable impact — automating work
+  from strategy through content creation, competitive intelligence, brand performance analytics,
+  and reporting. The platform surfaces evidence-grounded recommendations across brand, product
+  marketing, and content, and is used by enterprise marketing teams at companies such as SAP,
+  AWS, and Cisco. BlueOcean is backed by Insight Partners.
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://framerusercontent.com/assets/hhqqRjpNiLr0Ss0pOezhMgano.png
 url: https://raw.githubusercontent.com/api-evangelist/blueocean/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,9 +28,16 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
+- Marketing
+- Artificial Intelligence
+- Agentic AI
+- Brand Intelligence
+- Marketing Automation
+- Analytics
+- Go-To-Market
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -23,3 +47,20 @@ maintainers:
 common:
 - type: Website
   url: https://www.blueocean.ai/
+- type: Login
+  url: https://app.blueocean.ai/login
+- type: Blog
+  url: https://www.blueocean.ai/blog/
+- type: TermsOfService
+  url: https://www.blueocean.ai/terms
+- type: PrivacyPolicy
+  url: https://www.blueocean.ai/privacy-policy
+- type: LLMsTxt
+  url: llms/blueocean-llms.txt
+- type: DomainSecurity
+  url: security/blueocean-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
