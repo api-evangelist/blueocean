@@ -6,18 +6,21 @@ description: BlueOcean is a Context AI platform purpose-built for marketing team
   from strategy through content creation, competitive intelligence, brand performance analytics,
   and reporting. The platform surfaces evidence-grounded recommendations across brand, product
   marketing, and content, and is used by enterprise marketing teams at companies such as SAP,
-  AWS, and Cisco. BlueOcean is backed by Insight Partners.
+  AWS, and Cisco. BlueOcean is backed by Insight Partners. BlueOcean publishes no developer
+  program, no API documentation and no pricing; the only machine-readable contract on its
+  estate is the framework-generated OpenAPI its own web application calls.
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: sales-gated
+  onboarding: sales
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Book a demo
+  confidence: high
+  source:
+  - plans/blueocean-plans-pricing.yml
+  generated: '2026-08-13'
+  method: searched
 image: https://framerusercontent.com/assets/hhqqRjpNiLr0Ss0pOezhMgano.png
 url: https://raw.githubusercontent.com/api-evangelist/blueocean/refs/heads/main/apis.yml
 x-type: company
@@ -26,9 +29,9 @@ x-backed-by:
 - insight-partners
 x-tier: stub
 x-tier-reason: portfolio-lead
-specificationVersion: '0.20'
+specificationVersion: '0.21'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-13'
 tags:
 - Company
 - Marketing
@@ -38,7 +41,49 @@ tags:
 - Marketing Automation
 - Analytics
 - Go-To-Market
-apis: []
+- Model Context Protocol
+- Undocumented API
+apis:
+- name: BlueOcean Spark Platform API
+  description: >-
+    The application backend for BlueOcean's Spark agentic marketing assistant — saved prompts
+    and prompt analytics, "Siren" recurring schedules, session document upload, persistent user
+    memory, conversation history and widget state, and the brokering of a user's third-party MCP
+    server connections through Pipedream Connect. 63 paths, 72 operations.
+    THIS IS NOT A PUBLISHED DEVELOPER API. BlueOcean documents no developer program, no
+    authentication, no pricing and no rate limits. The contract below is FastAPI's
+    auto-generated description of the backend that app.blueocean.ai calls, served publicly and
+    anonymously at https://poseidon.blueocean.ai/api/openapi.json alongside a live Swagger UI.
+    It is profiled here as an observed public artifact, not as an integration surface API
+    Evangelist recommends calling.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - Agentic AI
+  - Marketing
+  - Model Context Protocol
+  - Undocumented API
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-spark-platform-openapi.json
+  - type: OpenAPI
+    url: https://poseidon.blueocean.ai/api/openapi.json
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Overlay
+    url: overlays/blueocean-spark-platform-overlay.yaml
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -50,17 +95,51 @@ common:
 - type: Login
   url: https://app.blueocean.ai/login
 - type: Blog
-  url: https://www.blueocean.ai/blog/
+  url: https://www.blueocean.ai/blog
 - type: TermsOfService
   url: https://www.blueocean.ai/terms
 - type: PrivacyPolicy
   url: https://www.blueocean.ai/privacy-policy
+- type: GitHubOrganization
+  url: https://github.com/blueocean-ai
 - type: LLMsTxt
   url: llms/blueocean-llms.txt
 - type: DomainSecurity
   url: security/blueocean-domain-security.yml
+- type: Authentication
+  url: authentication/blueocean-authentication.yml
+- type: Conventions
+  url: conventions/blueocean-conventions.yml
+- type: ErrorCatalog
+  url: errors/blueocean-problem-types.yml
+- type: DataModel
+  url: data-model/blueocean-data-model.yml
+- type: Conformance
+  url: conformance/blueocean-conformance.yml
+- type: Compliance
+  url: conformance/blueocean-conformance.yml
+- type: Lifecycle
+  url: lifecycle/blueocean-lifecycle.yml
+- type: Plans
+  url: plans/blueocean-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/blueocean-rate-limits.yml
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 13
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+  note: >-
+    Round 2. STEP 0b contract discovery found a live OpenAPI 3.1.0 at
+    https://poseidon.blueocean.ai/api/openapi.json — the API base hardcoded by the
+    app.blueocean.ai login bundle — after round 1 recorded no API surface.
+    Deliberately NOT generated this round, so a later round does not silently redo it:
+    skills/ (packaged Agent Skills). The only OpenAPI available describes an undocumented
+    product backend with no declared authentication that BlueOcean does not offer to
+    third-party developers; publishing agent skills grounded in it would teach agents to call
+    a surface the company has not shipped. Also correctly absent: a2a/ (no agent card on any
+    host), asyncapi/ (no event or webhook surface), scopes/ (no oauth2 securityScheme),
+    grpc/, cli/, sandbox/, components/, changelog/ and decline-codes (none published).
+    No WellKnown, SecurityTxt, AgentCard, MCPServer, SDKs, Idempotency, StatusPage,
+    Deprecation or Security pointer is emitted — each of those would assert a provider
+    surface that the probes in this repo record as absent.
