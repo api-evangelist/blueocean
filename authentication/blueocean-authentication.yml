@@ -1,0 +1,43 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/blueocean-spark-platform-openapi.json (+ anonymous HTTP probes of https://poseidon.blueocean.ai/api)
+docs: null
+summary:
+  types: []
+  api_key_in: []
+  oauth2_flows: []
+  declared_scheme_count: 0
+schemes: []
+notes: >-
+  BlueOcean publishes no developer authentication documentation and the one machine-readable
+  contract we could find — the FastAPI-generated OpenAPI 3.1.0 served at
+  https://poseidon.blueocean.ai/api/openapi.json, the API base hardcoded by the
+  app.blueocean.ai product login bundle — declares NO components.securitySchemes and NO
+  `security` requirement on any of its 72 operations.
+  Caller identity is instead carried as ordinary request parameters: `user_id` and
+  `account_id` appear as required query parameters or request-body fields on the prompts,
+  siren-schedule, session-document, memory and MCP-registration operations
+  (see AuthorizeRequest, Prompt, SirenScheduleCreate, RegisterMCPRequest, ConnectRequest).
+  This is a derived reading of the published contract, not a security assessment.
+  The OAuth 2.0 flows the contract does describe (`/auth/providers/{provider}/authorize`,
+  `/mcp/oauth/google/start`) are OUTBOUND — BlueOcean acting as an OAuth client to connect a
+  user's Google, Microsoft, LinkedIn, Slack or GitHub account — not an authorization server
+  BlueOcean operates for third-party API consumers. No
+  /.well-known/oauth-authorization-server or /.well-known/openid-configuration is served on
+  any BlueOcean host (all 404; see well-known/blueocean-well-known.yml).
+x-evidence:
+  - url: https://poseidon.blueocean.ai/api/openapi.json
+    http_status: 200
+    content_type: application/json
+    finding: no components.securitySchemes; no operation-level security
+  - url: https://poseidon.blueocean.ai/api/mcp/health
+    http_status: 200
+    finding: answered anonymously with no credential
+  - url: https://poseidon.blueocean.ai/api/auth/providers
+    http_status: 200
+    finding: answered anonymously with no credential
+  - url: https://poseidon.blueocean.ai/api/prompts
+    http_status: 422
+    finding: rejected for missing user_id/account_id query params, not for missing credential
+  - url: https://www.blueocean.ai/.well-known/openid-configuration
+    http_status: 404

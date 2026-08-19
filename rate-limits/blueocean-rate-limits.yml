@@ -1,0 +1,30 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  openapi/blueocean-spark-platform-openapi.json + live response headers from
+  https://poseidon.blueocean.ai/api/openapi.json
+limit_count: 0
+limits: []
+headers: []
+status_on_exhaustion: null
+retry_after: false
+notes: >-
+  No rate limits are published and none are signalled at runtime. BlueOcean has no developer
+  documentation to state a limit, and the contract documents only 200 and 422 across all 72
+  operations — there is no 429 response anywhere. A live unauthenticated GET returned no
+  RateLimit-*, X-RateLimit-* or Retry-After header; the only non-standard headers present were
+  `server: envoy` and `x-envoy-upstream-service-time`, which disclose an Envoy proxy but carry
+  no quota signal. An agent integrating against this surface has no runtime backpressure
+  signal to read and no documented number to plan against.
+observed_headers:
+  - name: server
+    value: envoy
+  - name: x-envoy-upstream-service-time
+    value: '42'
+  - name: cache-control
+    value: no-store
+    observed_on: https://api.blueocean.ai/
+probes:
+  - url: https://poseidon.blueocean.ai/api/openapi.json
+    status: 200
+    rate_limit_headers_present: false

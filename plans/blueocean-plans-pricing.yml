@@ -1,0 +1,25 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.blueocean.ai/sitemap.xml (39 URLs, no pricing page) +
+  probes of /pricing, /plans on www.blueocean.ai
+plan_count: 0
+currency: null
+plans: []
+notes: >-
+  BlueOcean publishes no pricing. There is no /pricing page — it returns 404 and no pricing
+  URL appears anywhere in the site's own sitemap.xml. Every conversion path on the site funnels
+  to a single "Book a demo" form at https://www.blueocean.ai/demo; the only other entry point
+  is https://app.blueocean.ai/login, which is a login with no self-serve signup
+  (/signup returns 404). This is an enterprise sales-gated product: no tiers, no quotas,
+  no overage schedule, no free tier and no trial are published anywhere a buyer or an agent
+  can read them.
+probes:
+  - url: https://www.blueocean.ai/pricing
+    status: 404
+  - url: https://www.blueocean.ai/demo
+    status: 200
+  - url: https://app.blueocean.ai/signup
+    status: 404
+  - url: https://app.blueocean.ai/login
+    status: 200

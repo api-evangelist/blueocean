@@ -1,0 +1,132 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/blueocean-spark-platform-openapi.json (+ live response headers from https://poseidon.blueocean.ai/api)
+docs: null
+summary: >-
+  Cross-cutting runtime semantics for the BlueOcean Spark platform API, derived entirely from
+  the FastAPI-generated OpenAPI 3.1.0 the product backend serves. BlueOcean publishes no
+  developer documentation, so nothing here could be upgraded from prose — every field is
+  either read off the contract or recorded as absent.
+auth:
+  style: none-declared
+  detail: >-
+    No components.securitySchemes and no operation-level `security`. Caller identity travels
+    as ordinary `user_id` / `account_id` request parameters.
+  cross_ref: authentication/blueocean-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  detail: >-
+    No Idempotency-Key header, no idempotency parameter, and no idempotency language anywhere
+    in the contract. The 20 POST operations (including /prompts, /siren/schedules,
+    /session-documents/upload, /pipedream/connect_token) carry no replay protection an agent
+    can use. No Idempotency pointer is emitted in apis.yml.
+pagination:
+  supported: false
+  style: null
+  request_params: []
+  response_fields: []
+  detail: >-
+    No limit/offset, page/per_page, or cursor/next parameters appear on any of the 30
+    collection GET operations (/prompts, /siren/schedules, /session-documents,
+    /user_memory/saved_items, /get_all_conversation_history, /pipedream/accounts,
+    /auth/providers/mcp/servers). The single exception is
+    POST /internal/siren/run-due, whose `limit` field caps a batch job rather than paging a
+    response. Collection responses are undescribed (schema-less 200s), so an agent cannot
+    tell whether results are truncated.
+field_expansion:
+  supported: false
+  detail: No expand / fields / include parameters in the contract.
+metadata:
+  supported: false
+  detail: >-
+    No generic metadata bag. Free-form caller state is instead modelled as
+    `state_metadata` on AuthorizeRequest and as the user-memory resource
+    (/user_memory, ProfilePatch, RememberRequest, ForgetRequest).
+request_tracing:
+  request_id_header: null
+  detail: >-
+    No X-Request-Id / correlation header documented, and none observed on live responses.
+    Observed response headers on GET /api/openapi.json were limited to
+    `server: envoy` and `x-envoy-upstream-service-time`, which reveal an Envoy proxy in front
+    of the service but carry no request identifier a caller could quote in a support ticket.
+    Conversation-scoped correlation is instead application-level: `thread_id`, `thread_ts`
+    and `session_token` fields on WidgetDataUpdate, RememberRequest and the session-document
+    operations.
+versioning:
+  scheme: none
+  current_version: '0.1.0'
+  detail: >-
+    info.version is the FastAPI default "0.1.0" and info.title the FastAPI default "FastAPI" —
+    neither is authored. No version segment in any path (there is no /v1/), no version header,
+    and no media-type versioning. servers[] is the relative "/api", so the contract does not
+    even name its own host; the absolute base https://poseidon.blueocean.ai/api is recorded in
+    overlays/blueocean-spark-platform-overlay.yaml and in apis.yml baseURL.
+  cross_ref: lifecycle/blueocean-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  rfc9457: false
+  shape: '{ "detail": [ { "loc": [...], "msg": "...", "type": "..." } ] }'
+  cross_ref: errors/blueocean-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  detail: >-
+    No RateLimit-* / X-RateLimit-* / Retry-After headers documented or observed, and no 429
+    response described on any operation.
+  cross_ref: rate-limits/blueocean-rate-limits.yml
+naming:
+  path_case: mixed
+  detail: >-
+    The surface is not internally consistent: snake_case resource paths (/user_memory,
+    /pinecone_api, /session-documents uses kebab-case), RPC-style verb paths at the root
+    (/get_message_history, /get_all_conversation_history, /upsert_widget_data,
+    /rename_conversation, /delete_conversation) alongside REST-style resource paths
+    (/prompts/{prompt_id}, /siren/schedules/{schedule_id}). Body field casing mixes
+    snake_case (user_id, account_id) and camelCase (userId, accountId, sessionToken,
+    promptId, marketingLifecycle) — sometimes within the same subsystem.
+  operation_ids: >-
+    operationIds are FastAPI auto-generated (function name + flattened path + method), e.g.
+    `get_prompt_metrics_prompts__prompt_id__analytics_get`. They are stable but not authored,
+    and they are hostile to SDK generation and to agent tool naming.
+agent_surface:
+  llms_txt:
+    served: true
+    url: https://www.blueocean.ai/llms.txt
+    status: 200
+    content_type: text/plain
+    stale: true
+    detail: >-
+      The llms.txt BlueOcean serves is a leftover from a previous website. It self-identifies
+      as "Generated by Yoast SEO v26.0" — a WordPress plugin — but www.blueocean.ai is now a
+      Framer-hosted site, and the two disagree. The llms.txt directs readers to
+      https://www.blueocean.ai/sitemap_index.xml, which returns 404 (the live sitemap is
+      /sitemap.xml, and it lists 39 URLs the llms.txt knows nothing about). Its five FAQ
+      entries and all five category URLs are hard 404s. Its /track/ product page 308-redirects
+      to the homepage — the page itself is gone. Its blog entries do still resolve, via
+      308 redirects from the old bare-slug form to the current /blog/<slug> form. The file
+      describes a five-post blog; the live site publishes 45. It says nothing about the API.
+    evidence:
+      - url: https://www.blueocean.ai/llms.txt
+        status: 200
+      - url: https://www.blueocean.ai/sitemap_index.xml
+        status: 404
+      - url: https://www.blueocean.ai/sitemap.xml
+        status: 200
+      - url: https://www.blueocean.ai/faq/where-can-i-find-new-social-metric-features/
+        status: 404
+      - url: https://www.blueocean.ai/category/marketing/
+        status: 404
+      - url: https://www.blueocean.ai/track/
+        status: 308
+        note: redirects to https://www.blueocean.ai/ — the page no longer exists
+  llms_full_txt:
+    served: false
+  agent_card:
+    served: false
+    detail: 404 on /.well-known/agent-card.json and /.well-known/agent.json on all four hosts.
+  mcp_server:
+    served: false
+    detail: BlueOcean is an MCP client, not a server. See mcp/blueocean-mcp.yml.

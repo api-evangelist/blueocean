@@ -1,0 +1,81 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  openapi/blueocean-spark-platform-openapi.json +
+  https://www.blueocean.ai/blog/blueocean-maintains-effective-security +
+  https://www.blueocean.ai/privacy-policy + /.well-known probes
+summary:
+  asserted: 12
+  conforms: 2
+standards:
+  - id: openapi
+    conforms: true
+    version: 3.1.0
+    evidence: >-
+      A valid OpenAPI 3.1.0 document with 63 paths and 72 operations is served at
+      https://poseidon.blueocean.ai/api/openapi.json (HTTP 200, application/json), with a
+      Swagger UI at https://poseidon.blueocean.ai/api/docs (HTTP 200). It is FastAPI's
+      auto-generated output — info.title "FastAPI", info.version "0.1.0", relative
+      servers[] "/api", no tags, no descriptions, no response schemas — so the standard is
+      met by the framework rather than authored by BlueOcean.
+  - id: soc2
+    conforms: true
+    evidence: >-
+      BlueOcean published a SOC 2 examination announcement on its own site
+      (https://www.blueocean.ai/blog/blueocean-maintains-effective-security, 2022-11-29),
+      naming BARR Advisory, P.A. as the practitioner and covering the security,
+      confidentiality and availability trust services criteria for the BlueOcean Brand
+      Intelligence platform. No trust centre, no report request flow, and no re-attestation
+      since 2022 is published.
+    caveat: single dated announcement, not a maintained compliance page
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      No OAuth 2.0 authorization server is operated for API consumers. No
+      /.well-known/oauth-authorization-server on any host (404). The contract's OAuth flows
+      (/auth/providers/{provider}/authorize, /mcp/oauth/google/start) are OUTBOUND — BlueOcean
+      as an OAuth client to Google, Microsoft, LinkedIn, Slack and GitHub.
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 404 on www., app., api. and poseidon.blueocean.ai
+  - id: rfc9457
+    conforms: false
+    evidence: >-
+      Errors are FastAPI HTTPValidationError over application/json, not
+      application/problem+json. See errors/blueocean-problem-types.yml.
+  - id: idempotency
+    conforms: false
+    evidence: No Idempotency-Key header or equivalent on any of the 20 POST operations.
+  - id: pagination
+    conforms: false
+    evidence: >-
+      No limit/offset, page, or cursor parameters on any of the 30 collection GET operations.
+  - id: rfc8594
+    conforms: false
+    evidence: No Sunset/Deprecation headers and no deprecation policy published.
+  - id: rfc9116
+    conforms: false
+    evidence: >-
+      No /.well-known/security.txt on any host (404 on www., app., api. and poseidon.;
+      the apex 308-redirects to www.). See well-known/blueocean-well-known.yml.
+  - id: mcp
+    conforms: false
+    evidence: >-
+      BlueOcean consumes MCP as a client via Pipedream Connect; it publishes no MCP server.
+      See mcp/blueocean-mcp.yml.
+  - id: a2a
+    conforms: false
+    evidence: >-
+      No agent card at /.well-known/agent-card.json or /.well-known/agent.json on any of the
+      four hosts (all 404).
+  - id: gdpr
+    conforms: unknown
+    evidence: >-
+      A privacy policy is published at https://www.blueocean.ai/privacy-policy (HTTP 200), but
+      no DPA, sub-processor list or data-residency page is served
+      (/dpa 404, /sub-processors 404), so no conformance claim is recorded either way.
+notes: >-
+  A `Compliance` pointer IS emitted in apis.yml on the strength of the SOC 2 announcement,
+  which is a named certification published on BlueOcean's own domain. No TrustCenter pointer
+  is emitted: probe-security-programs.py found no trust centre
+  (trust.blueocean.ai and security.blueocean.ai do not resolve; /security and /trust 404).

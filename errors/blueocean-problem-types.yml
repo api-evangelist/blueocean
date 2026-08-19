@@ -1,0 +1,64 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/blueocean-spark-platform-openapi.json
+format: fastapi-validation-error
+rfc9457: false
+summary:
+  operations: 72
+  operations_with_documented_errors: 68
+  distinct_status_codes:
+    '200': 72
+    '422': 68
+  note: >-
+    The contract documents exactly two response codes across all 72 operations: 200 and 422.
+    No 400, 401, 403, 404, 409, 429 or 5xx response is described anywhere in the spec, and the
+    error media type is application/json (NOT application/problem+json), so this is not an
+    RFC 9457 problem-details surface. The 422 envelope is FastAPI's stock
+    HTTPValidationError, which the framework emits automatically — it is a side effect of the
+    framework, not an authored error catalog. An agent calling this API has no documented
+    contract for authentication failure, authorization failure, not-found, conflict, or rate
+    limiting.
+envelope:
+  media_type: application/json
+  schema: HTTPValidationError
+  shape:
+    detail:
+      type: array
+      items: ValidationError
+  item_shape:
+    loc:
+      type: array
+      description: JSON path to the offending field, e.g. ["query", "user_id"]
+      required: true
+    msg:
+      type: string
+      description: Human-readable validation message, e.g. "Field required"
+      required: true
+    type:
+      type: string
+      description: Machine-readable validation error type, e.g. "missing"
+      required: true
+problem_types:
+  - status: 422
+    name: Validation Error
+    schema: HTTPValidationError
+    media_type: application/json
+    description: >-
+      Request failed schema validation — a required query parameter, path parameter or body
+      field is missing or of the wrong type. Emitted by the framework on 68 of 72 operations.
+    remediation: >-
+      Read `detail[].loc` to identify the offending parameter and `detail[].type` for the
+      failure class ("missing", "string_type", ...), then correct the request. Most commonly
+      the missing fields are `user_id` and `account_id`, which the contract requires on the
+      prompts, siren, session-document and memory operations.
+    operations_affected: 68
+    observed: true
+    observed_at: https://poseidon.blueocean.ai/api/prompts
+gaps:
+  - No 401/403 response documented on any operation, and no securityScheme is declared
+    (see authentication/blueocean-authentication.yml).
+  - No 404 response documented on any of the 30 operations that take a path parameter
+    ({prompt_id}, {schedule_id}, {doc_id}, {asset_id}, {server_name}, {kind}/{key}).
+  - No 429 response and no rate-limit headers documented
+    (see rate-limits/blueocean-rate-limits.yml).
+  - No 5xx response documented anywhere.

@@ -1,0 +1,50 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, github.com/blueocean-ai, https://www.blueocean.ai/sitemap.xml
+package_count: 0
+official_count: 0
+packages: []
+notes: >-
+  No first-party client library exists in any registry. BlueOcean's GitHub organization
+  (https://github.com/blueocean-ai, created 2019-01-18) is public but holds a single repository
+  — `jira-pr-action`, a TypeScript GitHub Action that adds Jira ticket references to pull
+  request titles, last pushed 2024-05-30. It is internal developer tooling, not an SDK, and it
+  does not touch the BlueOcean API. No SDKs pointer is emitted in apis.yml, because there is
+  no SDK to point at.
+registry_probes:
+  - registry: npm
+    package: blueocean
+    status: 404
+    version: null
+  - registry: npm
+    package: blueoceanai
+    status: 404
+    version: null
+  - registry: npm
+    package: '@blueocean/sdk'
+    status: 404
+    version: null
+  - registry: npm
+    package: '@blueoceanai/sdk'
+    status: 404
+    version: null
+  - registry: pypi
+    package: blueocean
+    status: 404
+    version: null
+  - registry: pypi
+    package: blueoceanai
+    status: 404
+    version: null
+github_org:
+  url: https://github.com/blueocean-ai
+  status: 200
+  public_repos: 1
+  repos:
+    - name: jira-pr-action
+      description: Github action to add Jira ticket to PR title / add links to PR description.
+      language: TypeScript
+      last_push: '2024-05-30'
+      official: true
+      is_sdk: false

@@ -1,0 +1,82 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://poseidon.blueocean.ai/api/openapi.json (72 operations) + probes of /mcp and /api/mcp
+  on www./app./api./poseidon.blueocean.ai + GitHub org github.com/blueocean-ai + npm/PyPI
+status: none
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+summary: >-
+  BlueOcean does NOT publish an MCP server. It is an MCP CLIENT.
+  This is the important distinction on this profile and it is easy to get backwards: the
+  product backend contract is full of MCP vocabulary — /mcp/connect, /mcp/{provider}/{app}/tools,
+  /mcp/{provider}/{app}/tools/call, /mcp/{provider}/{app}/messages, /mcp/health,
+  /pipedream/register_mcp, /auth/providers/mcp/servers — but every one of those operations
+  exists so that a BlueOcean USER can attach THEIR third-party MCP servers (Google Drive,
+  Sheets, Docs and whatever else Pipedream Connect brokers) to a BlueOcean chat session.
+  The tools listed by GET /mcp/{provider}/{app}/tools belong to those third parties, not to
+  BlueOcean. Nothing on any BlueOcean host answers the MCP protocol for an outside agent.
+  No AgentSkill, ToolCrosswalk or MCPServer pointer is emitted for BlueOcean on this basis.
+probes:
+  - url: https://poseidon.blueocean.ai/mcp
+    status: 404
+  - url: https://poseidon.blueocean.ai/api/mcp
+    status: 404
+  - url: https://www.blueocean.ai/mcp
+    status: 404
+  - url: https://app.blueocean.ai/mcp
+    status: 404
+  - url: https://api.blueocean.ai/mcp
+    status: 404
+  - url: https://poseidon.blueocean.ai/api/mcp/health
+    status: 200
+    body: '{"status":"healthy","message":"Mock MCP servers operational","available_servers":["google/drive","google/sheets","google/docs"]}'
+    finding: >-
+      This is the health of BlueOcean's OUTBOUND MCP client connections — and it self-reports
+      "Mock MCP servers operational", i.e. the connectors answering at the time of probe were
+      mocks. It is not an MCP endpoint an agent can speak the protocol to.
+  - url: https://poseidon.blueocean.ai/api/auth/providers
+    status: 200
+    body: '{"providers":["google","microsoft","linkedin","slack","github"],"count":5}'
+    finding: the five third-party identity providers a BlueOcean user may connect
+mcp_client_surface:
+  role: host
+  broker: Pipedream Connect
+  connectable_providers: [google, microsoft, linkedin, slack, github]
+  transports_accepted:
+    schema: ServerConfig
+    fields: [name, transport, url, timeout]
+    note: >-
+      A user-registered MCP server is described by name + transport + url + timeout, so
+      BlueOcean accepts a remote URL-addressed MCP server as a connection target.
+  operations:
+    - POST /mcp/connect
+    - POST /mcp/oauth/google/start
+    - GET /mcp/oauth/google/callback
+    - GET /mcp/{provider}/{app}/tools
+    - POST /mcp/{provider}/{app}/tools/call
+    - POST /mcp/{provider}/{app}/messages
+    - GET /mcp/health
+    - POST /pipedream/register_mcp
+    - GET /pipedream/servers
+    - GET /pipedream/mcp_accounts
+    - POST /pipedream/connect_token
+    - DELETE /pipedream/servers/{server_name}/{app_name}
+    - GET /auth/providers/mcp/servers
+    - GET /auth/providers/mcp/servers/{server_name}
+    - POST /auth/providers/mcp/servers/{server_name}/refresh
+    - DELETE /auth/providers/mcp/servers/{server_name}
+    - GET /auth/providers/mcp/stats
+    - POST /auth/providers/{provider}/register
+    - PUT /auth/providers/{provider}/servers/{service}/enable
+    - PUT /auth/providers/{provider}/servers/{service}/disable
+tools: []
+tools_note: >-
+  No candidate tool list is derived. Deriving one from these 72 operations would describe an
+  undocumented product backend that BlueOcean does not offer to third-party developers, and
+  would read as an agent surface BlueOcean has not shipped.

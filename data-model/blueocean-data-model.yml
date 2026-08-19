@@ -1,0 +1,149 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/blueocean-spark-platform-openapi.json
+docs: null
+summary:
+  schema_count: 21
+  entity_count: 9
+  note: >-
+    Derived from the 21 components.schemas and the id-reference fields on the request bodies
+    and path parameters. The contract describes no response schemas (every 200 is
+    schema-less), so relationships are inferred from REQUEST shapes and path structure only,
+    and confidence is marked accordingly. There are no $ref links between entity schemas —
+    the graph below is entirely id-reference based.
+identity:
+  tenant_key: account_id
+  user_key: user_id
+  detail: >-
+    Almost every entity is scoped by the pair (user_id, account_id), carried as query
+    parameters or body fields rather than derived from a credential. Field casing alternates
+    between snake_case (user_id / account_id) and camelCase (userId / accountId) depending on
+    the subsystem.
+id_formats: []
+id_format_note: >-
+  The contract declares no id patterns, formats or prefixes — prompt_id, schedule_id, doc_id,
+  asset_id and thread_id are all untyped strings. No object reference documentation is
+  published to enrich this.
+entities:
+  - name: Account
+    schema: null
+    inferred_from: account_id / accountId field on 6 schemas
+    description: Tenant boundary. Never modelled as a resource; only referenced.
+  - name: User
+    schema: null
+    inferred_from: user_id / userId field on 8 schemas
+    description: Actor. Never modelled as a resource; only referenced.
+  - name: Prompt
+    schema: Prompt
+    paths: [/prompts, "/prompts/{prompt_id}"]
+    fields: [title, visibility, prompt, marketingLifecycle, type, objective, customInstructions, userId, accountId]
+    description: A saved, reusable marketing prompt with a lifecycle stage and visibility.
+  - name: PromptEvent
+    schema: PromptEvent
+    paths: ["/prompts/{prompt_id}/events", "/prompts/{prompt_id}/analytics", /prompts/analytics/popular]
+    fields: [eventType, userId, accountId]
+    description: Usage telemetry emitted against a Prompt; backs the analytics operations.
+  - name: SirenSchedule
+    schema: [SirenScheduleCreate, SirenSchedulePatch]
+    paths: [/siren/schedules, "/siren/schedules/{schedule_id}"]
+    fields: [userId, accountId, frequency, cronExpression, timezone, status, notifyPolicy, notificationEmail, promptId, promptText, title, marketingLifecycle, type, objective, customInstructions, guidance, potentiallyUsefulContext, chatContext]
+    description: >-
+      "Siren" is the recurring-execution subsystem — a cron/frequency-driven schedule that
+      re-runs a Prompt and notifies by email.
+  - name: SirenRun
+    schema: null
+    paths: ["/siren/schedules/{schedule_id}/runs", "/siren/schedules/{schedule_id}/run-next", /internal/siren/run-due]
+    description: An execution of a SirenSchedule. Response shape undocumented.
+  - name: SessionDocument
+    schema: Body_upload_session_documents_session_documents_upload_post
+    paths: [/session-documents, /session-documents/upload, "/session-documents/{doc_id}", "/session-documents/{doc_id}/status", "/session-documents/sessions/{session_token}"]
+    fields: [session_token, user_id, account_id, files]
+    description: >-
+      A file uploaded into a chat session for grounding; carries an async processing status,
+      which implies an ingestion pipeline the contract does not otherwise describe.
+  - name: UserMemory
+    schema: [RememberRequest, ForgetRequest, ProfilePatch, MemoryDisablePatch, StrengthPatch]
+    paths: [/user_memory, /user_memory/saved_items, /user_memory/forget, /user_memory/profile, "/user_memory/{kind}/{key}", "/user_memory/{kind}/{key}/strength", "/user_memory/{kind}/{key}/disabled", /user_memory/admin/by_bucket]
+    fields: [user_id, text, memory, thread_id, key, kind, phrase, strength, disabled, preferred_tone, preferred_verbosity, preferred_formats, recurring_domains, assistant_notes]
+    description: >-
+      Persistent per-user assistant memory, addressed by a (kind, key) composite and carrying
+      a decay-like `strength` and a `disabled` flag. The richest entity in the contract.
+  - name: MCPServerConnection
+    schema: [ServerConfig, RegisterMCPRequest, ConnectRequest, ConnectTokenRequest, MCPCallToolRequest, OAuthStartRequest, AuthorizeRequest]
+    paths: [/mcp/connect, "/mcp/{provider}/{app}/tools", "/mcp/{provider}/{app}/tools/call", "/mcp/{provider}/{app}/messages", /pipedream/register_mcp, /pipedream/servers, /pipedream/mcp_accounts, /auth/providers/mcp/servers, "/auth/providers/{provider}/register"]
+    fields: [name, transport, url, timeout, provider, service, app, user_id, account_id, external_user_id]
+    description: >-
+      A third-party MCP server the user has connected THROUGH BlueOcean (brokered via
+      Pipedream Connect). BlueOcean is the MCP client/host here, not the server.
+      See mcp/blueocean-mcp.yml.
+  - name: Conversation
+    schema: WidgetDataUpdate
+    paths: [/get_message_history, /get_message_history_v2, /get_all_conversation_history, /get_conversation_history_summary, /rename_conversation, /delete_conversation, /upsert_widget_data]
+    fields: [thread_id, thread_ts, widget_key, widget_value]
+    description: >-
+      Chat threads and the widget payloads rendered into them, addressed by thread_id +
+      thread_ts. Exposed through RPC-style root paths rather than a /conversations resource.
+relationships:
+  - from: Account
+    to: User
+    type: has_many
+    via: account_id
+    confidence: medium
+  - from: User
+    to: Prompt
+    type: has_many
+    via: userId
+    confidence: high
+  - from: Prompt
+    to: PromptEvent
+    type: has_many
+    via: prompt_id (path)
+    confidence: high
+  - from: Prompt
+    to: SirenSchedule
+    type: has_many
+    via: promptId
+    confidence: high
+  - from: SirenSchedule
+    to: SirenRun
+    type: has_many
+    via: schedule_id (path)
+    confidence: high
+  - from: User
+    to: UserMemory
+    type: has_many
+    via: user_id
+    confidence: high
+  - from: UserMemory
+    to: Conversation
+    type: belongs_to
+    via: thread_id
+    confidence: medium
+  - from: Conversation
+    to: SessionDocument
+    type: has_many
+    via: session_token
+    confidence: medium
+  - from: User
+    to: MCPServerConnection
+    type: has_many
+    via: user_id / external_user_id
+    confidence: high
+  - from: User
+    to: Conversation
+    type: has_many
+    via: user_id
+    confidence: medium
+third_party_dependencies_visible_in_contract:
+  - name: Pinecone
+    evidence: GET /pinecone_api/pinecone
+    role: vector store
+  - name: LangSmith
+    evidence: POST /langsmith_api/feedback
+    role: LLM tracing / feedback capture
+  - name: Pipedream Connect
+    evidence: /pipedream/* (7 operations)
+    role: third-party OAuth + MCP account brokering
+  - name: Amazon Bedrock
+    evidence: https://www.blueocean.ai/blog/built-on-amazon-bedrock-how-blueoceanai-is-redefining-marketing-with-ai-agents
+    role: model hosting (stated by BlueOcean, not visible in the contract)

@@ -1,0 +1,60 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.blueocean.ai/sitemap.xml + probes of /changelog, /status, status.blueocean.ai,
+  /api on www.blueocean.ai + openapi/blueocean-spark-platform-openapi.json
+versioning:
+  scheme: none
+  current_version: '0.1.0'
+  in_path: false
+  in_header: false
+  detail: >-
+    info.version is the FastAPI default. No /v1/ segment, no version header, no media-type
+    versioning. The only versioning signal anywhere in the surface is the hand-rolled
+    /get_message_history_v2 sitting alongside /get_message_history — a v2 of one operation,
+    with the v1 still published and no indication which an integrator should call.
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: []
+  detail: >-
+    No deprecation policy page, no RFC 8594 Sunset/Deprecation headers documented, and not one
+    of the 72 operations carries `deprecated: true` — including /get_message_history, which
+    /get_message_history_v2 appears to supersede.
+sla:
+  published: false
+  url: null
+status_page:
+  published: false
+  url: null
+  probes:
+    - url: https://status.blueocean.ai/
+      status: 000
+      note: DNS does not resolve
+    - url: https://www.blueocean.ai/status
+      status: 404
+changelog:
+  published: false
+  url: null
+  probes:
+    - url: https://www.blueocean.ai/changelog
+      status: 404
+  detail: >-
+    No dated changelog. The blog at https://www.blueocean.ai/blog carries occasional product
+    announcements (e.g. "BlueOcean Announces Improved Social Media Insights"), but it is not a
+    changelog: entries are marketing posts, not versioned releases, and none reference the API.
+support:
+  published: false
+  probes:
+    - url: https://www.blueocean.ai/support
+      status: 404
+    - url: https://www.blueocean.ai/help
+      status: 404
+  detail: >-
+    No support or help centre. The only published contact path is the demo request form at
+    https://www.blueocean.ai/demo.
+notes: >-
+  No StatusPage and no Deprecation pointer is emitted in apis.yml, because BlueOcean publishes
+  neither. This file records those absences.
