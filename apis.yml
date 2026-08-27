@@ -55,39 +55,454 @@ tags_raw:
 - Model Context Protocol
 - Undocumented API
 apis:
-- name: BlueOcean Spark Platform API
-  description: >-
-    The application backend for BlueOcean's Spark agentic marketing assistant — saved prompts
-    and prompt analytics, "Siren" recurring schedules, session document upload, persistent user
-    memory, conversation history and widget state, and the brokering of a user's third-party MCP
-    server connections through Pipedream Connect. 63 paths, 72 operations.
-    THIS IS NOT A PUBLISHED DEVELOPER API. BlueOcean documents no developer program, no
-    authentication, no pricing and no rate limits. The contract below is FastAPI's
-    auto-generated description of the backend that app.blueocean.ai calls, served publicly and
-    anonymously at https://poseidon.blueocean.ai/api/openapi.json alongside a live Swagger UI.
-    It is profiled here as an observed public artifact, not as an integration surface API
-    Evangelist recommends calling.
+- aid: blueocean:blueocean-delete-conversation-api
+  name: BlueOcean Delete Conversation API
+  description: The Delete Conversation API from BlueOcean — 1 operation(s) for delete conversation.
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
-  - Agentic AI
-  - Marketing
-  - MCP
-  - Undocumented API
-  tags_raw:
-  - Agentic AI
-  - Marketing
-  - Model Context Protocol
-  - Undocumented API
+  - Delete Conversation
   properties:
   - type: OpenAPI
-    url: openapi/blueocean-spark-platform-openapi.json
-  - type: OpenAPI
-    url: https://poseidon.blueocean.ai/api/openapi.json
+    url: openapi/blueocean-delete-conversation-api-openapi.yml
   - type: APIReference
     url: https://poseidon.blueocean.ai/api/docs
-  - type: Overlay
-    url: overlays/blueocean-spark-platform-overlay.yaml
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-get-all-conversation-history-api
+  name: BlueOcean Get All Conversation History API
+  description: >-
+    The Get All Conversation History API from BlueOcean — 1 operation(s) for get all conversation history.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - Get All Conversation History
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-get-all-conversation-history-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-get-conversation-history-summary-api
+  name: BlueOcean Get Conversation History Summary API
+  description: >-
+    The Get Conversation History Summary API from BlueOcean — 1 operation(s) for get conversation history
+    summary.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - Get Conversation History Summary
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-get-conversation-history-summary-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-get-message-history-api
+  name: BlueOcean Get Message History API
+  description: The Get Message History API from BlueOcean — 1 operation(s) for get message history.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - Get Message History
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-get-message-history-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-get-message-history-v2-api
+  name: BlueOcean Get Message History V2 API
+  description: >-
+    The Get Message History V2 API from BlueOcean — 1 operation(s) for get message history v2.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - Get Message History V2
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-get-message-history-v2-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-images-api
+  name: BlueOcean Images API
+  description: The images API from BlueOcean — 1 operation(s) for images.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - images
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-images-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-langsmith-api-api
+  name: BlueOcean Langsmith API
+  description: The langsmith_api API from BlueOcean — 1 operation(s) for langsmith_api.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - langsmith_api
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-langsmith-api-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-mcp-api
+  name: BlueOcean MCP API
+  description: The mcp API from BlueOcean — 3 operation(s) for mcp.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - mcp
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-mcp-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-mock-mcp-api
+  name: BlueOcean Mock MCP API
+  description: The mock_mcp API from BlueOcean — 4 operation(s) for mock_mcp.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - mock_mcp
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-mock-mcp-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-oauth-providers-api
+  name: BlueOcean OAUTH Providers API
+  description: The oauth_providers API from BlueOcean — 15 operation(s) for oauth_providers.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - oauth_providers
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-oauth-providers-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-pinecone-api-api
+  name: BlueOcean Pinecone API
+  description: The pinecone_api API from BlueOcean — 1 operation(s) for pinecone_api.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - pinecone_api
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-pinecone-api-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-pipedream-api
+  name: BlueOcean Pipedream API
+  description: The pipedream API from BlueOcean — 7 operation(s) for pipedream.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - pipedream
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-pipedream-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-prompts-api
+  name: BlueOcean Prompts API
+  description: The prompts API from BlueOcean — 6 operation(s) for prompts.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - prompts
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-prompts-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-rename-conversation-api
+  name: BlueOcean Rename Conversation API
+  description: The Rename Conversation API from BlueOcean — 1 operation(s) for rename conversation.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - Rename Conversation
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-rename-conversation-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-session-documents-api
+  name: BlueOcean Session Documents API
+  description: The session_documents API from BlueOcean — 5 operation(s) for session_documents.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - session_documents
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-session-documents-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-siren-api
+  name: BlueOcean Siren API
+  description: The siren API from BlueOcean — 4 operation(s) for siren.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - siren
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-siren-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-siren-internal-api
+  name: BlueOcean Siren Internal API
+  description: The siren-internal API from BlueOcean — 1 operation(s) for siren-internal.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - siren-internal
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-siren-internal-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-upsert-widget-data-api
+  name: BlueOcean Upsert Widget Data API
+  description: The Upsert Widget Data API from BlueOcean — 1 operation(s) for upsert widget data.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - Upsert Widget Data
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-upsert-widget-data-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-user-memory-api
+  name: BlueOcean User Memory API
+  description: The user_memory API from BlueOcean — 8 operation(s) for user_memory.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - user_memory
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-user-memory-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
   - type: Authentication
     url: authentication/blueocean-authentication.yml
   - type: Conventions
@@ -106,6 +521,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/blueocean-spark-platform-overlay.yaml
 - type: Website
   url: https://www.blueocean.ai/
 - type: Login
