@@ -9,6 +9,18 @@ description: BlueOcean is a Context AI platform purpose-built for marketing team
   AWS, and Cisco. BlueOcean is backed by Insight Partners. BlueOcean publishes no developer
   program, no API documentation and no pricing; the only machine-readable contract on its
   estate is the framework-generated OpenAPI its own web application calls.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: sales-gated
   onboarding: sales
