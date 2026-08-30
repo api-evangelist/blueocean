@@ -197,6 +197,8 @@ apis:
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
+  - Image
+  tags_raw:
   - images
   properties:
   - type: OpenAPI
@@ -220,7 +222,8 @@ apis:
   description: The langsmith_api API from BlueOcean — 1 operation(s) for langsmith_api.
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
-  tags:
+  tags: []
+  tags_raw:
   - langsmith_api
   properties:
   - type: OpenAPI
@@ -245,6 +248,8 @@ apis:
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
+  - MCP
+  tags_raw:
   - mcp
   properties:
   - type: OpenAPI
@@ -268,7 +273,8 @@ apis:
   description: The mock_mcp API from BlueOcean — 4 operation(s) for mock_mcp.
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
-  tags:
+  tags: []
+  tags_raw:
   - mock_mcp
   properties:
   - type: OpenAPI
@@ -293,6 +299,8 @@ apis:
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
+  - OAuthProviders
+  tags_raw:
   - oauth_providers
   properties:
   - type: OpenAPI
@@ -316,7 +324,8 @@ apis:
   description: The pinecone_api API from BlueOcean — 1 operation(s) for pinecone_api.
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
-  tags:
+  tags: []
+  tags_raw:
   - pinecone_api
   properties:
   - type: OpenAPI
@@ -341,6 +350,8 @@ apis:
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
+  - Pipedream
+  tags_raw:
   - pipedream
   properties:
   - type: OpenAPI
@@ -365,6 +376,8 @@ apis:
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
+  - Prompts
+  tags_raw:
   - prompts
   properties:
   - type: OpenAPI
@@ -412,7 +425,8 @@ apis:
   description: The session_documents API from BlueOcean — 5 operation(s) for session_documents.
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
-  tags:
+  tags: []
+  tags_raw:
   - session_documents
   properties:
   - type: OpenAPI
@@ -508,7 +522,8 @@ apis:
   description: The user_memory API from BlueOcean — 8 operation(s) for user_memory.
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
-  tags:
+  tags: []
+  tags_raw:
   - user_memory
   properties:
   - type: OpenAPI
