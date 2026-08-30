@@ -1,0 +1,85 @@
+openapi: 3.2.0
+info:
+  title: Fast Siren Internal API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: siren-internal
+paths:
+  /internal/siren/run-due:
+    post:
+      tags:
+      - siren-internal
+      summary: Run Due
+      description: Claim due schedules and start background executions; returns immediately.
+      operationId: run_due_internal_siren_run_due_post
+      parameters:
+      - name: X-Internal-Scheduler-Secret
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Internal-Scheduler-Secret
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/SirenRunDueRequest'
+              - type: 'null'
+              title: Payload
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SirenRunDueRequest:
+      properties:
+        limit:
+          type: integer
+          title: Limit
+          default: 10
+      type: object
+      title: SirenRunDueRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

@@ -1,0 +1,278 @@
+openapi: 3.2.0
+info:
+  title: Fast Session Documents API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: session_documents
+paths:
+  /session-documents/upload:
+    post:
+      tags:
+      - session_documents
+      summary: Upload Session Documents
+      operationId: upload_session_documents_session_documents_upload_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_session_documents_session_documents_upload_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /session-documents:
+    get:
+      tags:
+      - session_documents
+      summary: List Session Documents
+      operationId: list_session_documents_session_documents_get
+      parameters:
+      - name: session_token
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Session Token
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /session-documents/sessions/{session_token}:
+    get:
+      tags:
+      - session_documents
+      summary: Get Session Documents
+      operationId: get_session_documents_session_documents_sessions__session_token__get
+      parameters:
+      - name: session_token
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Token
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /session-documents/{doc_id}/status:
+    get:
+      tags:
+      - session_documents
+      summary: Get Session Document Status
+      operationId: get_session_document_status_session_documents__doc_id__status_get
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Doc Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /session-documents/{doc_id}:
+    delete:
+      tags:
+      - session_documents
+      summary: Delete Uploaded Session Document
+      operationId: delete_uploaded_session_document_session_documents__doc_id__delete
+      parameters:
+      - name: doc_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Doc Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_upload_session_documents_session_documents_upload_post:
+      properties:
+        session_token:
+          type: string
+          title: Session Token
+        user_id:
+          type: string
+          title: User Id
+        account_id:
+          type: string
+          title: Account Id
+        files:
+          items:
+            type: string
+            format: binary
+          type: array
+          title: Files
+      type: object
+      required:
+      - session_token
+      - user_id
+      - account_id
+      - files
+      title: Body_upload_session_documents_session_documents_upload_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

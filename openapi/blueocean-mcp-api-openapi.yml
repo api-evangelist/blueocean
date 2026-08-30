@@ -1,0 +1,191 @@
+openapi: 3.2.0
+info:
+  title: Fast MCP API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: mcp
+paths:
+  /mcp/oauth/google/start:
+    post:
+      tags:
+      - mcp
+      summary: Oauth Start Google
+      operationId: oauth_start_google_mcp_oauth_google_start_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthStartRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /mcp/oauth/google/callback:
+    get:
+      tags:
+      - mcp
+      summary: Oauth Callback Google
+      operationId: oauth_callback_google_mcp_oauth_google_callback_get
+      parameters:
+      - name: code
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Code
+      - name: state
+        in: query
+        required: true
+        schema:
+          type: string
+          title: State
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /mcp/connect:
+    post:
+      tags:
+      - mcp
+      summary: Connect Mcp
+      operationId: connect_mcp_mcp_connect_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ServerConfig:
+      properties:
+        name:
+          type: string
+          title: Name
+        transport:
+          type: string
+          title: Transport
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Timeout
+          default: 30
+      type: object
+      required:
+      - name
+      - transport
+      title: ServerConfig
+    ConnectRequest:
+      properties:
+        sessionToken:
+          type: string
+          title: Sessiontoken
+        provider:
+          type: string
+          title: Provider
+        server_config:
+          $ref: '#/components/schemas/ServerConfig'
+        user_id:
+          type: string
+          title: User Id
+        account_id:
+          type: string
+          title: Account Id
+      type: object
+      required:
+      - sessionToken
+      - provider
+      - server_config
+      - user_id
+      - account_id
+      title: ConnectRequest
+    OAuthStartRequest:
+      properties:
+        sessionToken:
+          type: string
+          title: Sessiontoken
+        redirectUri:
+          type: string
+          title: Redirecturi
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+        account_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      type: object
+      required:
+      - sessionToken
+      - redirectUri
+      title: OAuthStartRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

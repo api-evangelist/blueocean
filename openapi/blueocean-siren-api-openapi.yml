@@ -1,0 +1,517 @@
+openapi: 3.2.0
+info:
+  title: Fast Siren API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: siren
+paths:
+  /siren/schedules:
+    post:
+      tags:
+      - siren
+      summary: Create Schedule
+      description: Create a Siren schedule for an existing library prompt or inline prompt text.
+      operationId: create_schedule_siren_schedules_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SirenScheduleCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - siren
+      summary: List Schedules
+      description: 'List the caller''s Siren schedules with their library prompt details.
+
+
+        Pass ``prompt_id`` to fetch the schedule(s) for one prompt (the library
+
+        card lookup); omit it to list all (e.g. to badge a whole grid in one call).'
+      operationId: list_schedules_siren_schedules_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: Offset
+      - name: prompt_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /siren/schedules/{schedule_id}:
+    get:
+      tags:
+      - siren
+      summary: Get Schedule
+      description: Get a Siren schedule with its library prompt details.
+      operationId: get_schedule_siren_schedules__schedule_id__get
+      parameters:
+      - name: schedule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Schedule Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - siren
+      summary: Patch Schedule
+      description: Partially update schedule fields (cron, timezone, status, notifications, context).
+      operationId: patch_schedule_siren_schedules__schedule_id__patch
+      parameters:
+      - name: schedule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Schedule Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SirenSchedulePatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - siren
+      summary: Delete Schedule
+      description: Soft-delete a Siren schedule.
+      operationId: delete_schedule_siren_schedules__schedule_id__delete
+      parameters:
+      - name: schedule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Schedule Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /siren/schedules/{schedule_id}/run-next:
+    post:
+      tags:
+      - siren
+      summary: Run Next
+      description: Request a run in the next available scheduler slot.
+      operationId: run_next_siren_schedules__schedule_id__run_next_post
+      parameters:
+      - name: schedule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Schedule Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /siren/schedules/{schedule_id}/runs:
+    get:
+      tags:
+      - siren
+      summary: List Runs
+      description: List run history for a schedule (successes and failures).
+      operationId: list_runs_siren_schedules__schedule_id__runs_get
+      parameters:
+      - name: schedule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Schedule Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    SirenSchedulePatch:
+      properties:
+        userId:
+          type: string
+          title: Userid
+        accountId:
+          type: string
+          title: Accountid
+        frequency:
+          anyOf:
+          - type: string
+            enum:
+            - daily
+            - weekly
+            - monthly
+          - type: 'null'
+          title: Frequency
+        cronExpression:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cronexpression
+        timezone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Timezone
+        status:
+          anyOf:
+          - type: string
+            enum:
+            - active
+            - paused
+          - type: 'null'
+          title: Status
+        notifyPolicy:
+          anyOf:
+          - type: string
+            enum:
+            - never
+            - insightful
+            - always
+          - type: 'null'
+          title: Notifypolicy
+        notificationEmail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notificationemail
+        guidance:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Guidance
+        potentiallyUsefulContext:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Potentiallyusefulcontext
+        chatContext:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Chatcontext
+      type: object
+      required:
+      - userId
+      - accountId
+      title: SirenSchedulePatch
+      description: 'Partial update of schedule fields. Omitted fields are left untouched;
+
+        consumers must use model_dump(exclude_unset=True).'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SirenScheduleCreate:
+      properties:
+        userId:
+          type: string
+          title: Userid
+        accountId:
+          type: string
+          title: Accountid
+        frequency:
+          anyOf:
+          - type: string
+            enum:
+            - daily
+            - weekly
+            - monthly
+          - type: 'null'
+          title: Frequency
+        cronExpression:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cronexpression
+        timezone:
+          type: string
+          title: Timezone
+          default: UTC
+        notifyPolicy:
+          type: string
+          enum:
+          - never
+          - insightful
+          - always
+          title: Notifypolicy
+          default: insightful
+        notificationEmail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notificationemail
+        promptId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Promptid
+        promptText:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompttext
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        marketingLifecycle:
+          type: string
+          title: Marketinglifecycle
+          default: any
+        type:
+          items:
+            type: string
+          type: array
+          title: Type
+          default:
+          - scheduled
+        objective:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Objective
+        customInstructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custominstructions
+        guidance:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Guidance
+        potentiallyUsefulContext:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Potentiallyusefulcontext
+        chatContext:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Chatcontext
+        sourceThreadId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sourcethreadid
+        sourceThreadTs:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sourcethreadts
+      type: object
+      required:
+      - userId
+      - accountId
+      title: SirenScheduleCreate
+      description: 'Create a Siren schedule, either for an existing library prompt (promptId)
+
+        or by upgrading inline prompt text into the library first (promptText).'

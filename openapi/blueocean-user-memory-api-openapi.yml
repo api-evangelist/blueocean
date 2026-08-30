@@ -1,0 +1,673 @@
+openapi: 3.2.0
+info:
+  title: Fast User Memory API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: user_memory
+paths:
+  /user_memory:
+    get:
+      tags:
+      - user_memory
+      summary: Get User Memory
+      description: Return everything we have stored about ``user_id``.
+      operationId: get_user_memory_user_memory_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Get User Memory User Memory Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - user_memory
+      summary: Remember User Memory
+      description: Guaranteed explicit memory write used by "remember X" UI actions.
+      operationId: remember_user_memory_user_memory_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RememberRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Remember User Memory User Memory Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - user_memory
+      summary: Delete User Memory
+      description: 'Delete one explicit phrase when a body is supplied, otherwise wipe all.
+
+
+        The legacy query-only shape ``DELETE /user_memory?user_id=...`` still
+
+        removes every stored record. A JSON body with ``phrase`` or ``key`` uses the
+
+        new explicit forget matcher instead.'
+      operationId: delete_user_memory_user_memory_delete
+      parameters:
+      - name: user_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/ForgetRequest'
+              - type: 'null'
+              title: Payload
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Delete User Memory User Memory Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /user_memory/saved_items:
+    get:
+      tags:
+      - user_memory
+      summary: List Saved Memory Items
+      description: 'List saved memory records by bucket for UI management.
+
+
+        Bucket names match the delete route''s ``kind`` path parameter, so the UI
+
+        can pass an item''s bucket name and key directly to ``DELETE /user_memory/{kind}/{key}``.
+
+        When ``conversationId`` is provided, the payload is emitted to the Socket.IO
+
+        room named by that conversation and the HTTP response is only an acknowledgement.'
+      operationId: list_saved_memory_items_user_memory_saved_items_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: conversationId
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Conversationid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response List Saved Memory Items User Memory Saved Items Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /user_memory/forget:
+    post:
+      tags:
+      - user_memory
+      summary: Forget User Memory
+      description: Guaranteed explicit memory delete used by "forget X" UI actions.
+      operationId: forget_user_memory_user_memory_forget_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgetRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Forget User Memory User Memory Forget Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /user_memory/profile:
+    patch:
+      tags:
+      - user_memory
+      summary: Patch Profile
+      description: 'Merge ``patch`` into the existing profile record.
+
+
+        Creates the profile if none exists. Fields set to ``None`` on the patch
+
+        leave the existing value untouched; callers must send an explicit empty
+
+        list to clear a list field. Shares the per-user write lock with the
+
+        explicit API and ambient extractor so the single profile row is never
+
+        clobbered by a concurrent writer.'
+      operationId: patch_profile_user_memory_profile_patch
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfilePatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Patch Profile User Memory Profile Patch
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /user_memory/{kind}/{key}/strength:
+    patch:
+      tags:
+      - user_memory
+      summary: Patch Memory Strength
+      description: 'Update a collection memory record''s strength by bucket and key.
+
+
+        Strength is only meaningful on collection buckets. Profile has no strength,
+
+        so callers should use ``PATCH /user_memory/profile`` for profile updates.'
+      operationId: patch_memory_strength_user_memory__kind___key__strength_patch
+      parameters:
+      - name: kind
+        in: path
+        required: true
+        schema:
+          enum:
+          - profile
+          - topic_interests
+          - task_patterns
+          - semantic_facts
+          type: string
+          title: Kind
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrengthPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Patch Memory Strength User Memory  Kind   Key  Strength Patch
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /user_memory/{kind}/{key}/disabled:
+    patch:
+      tags:
+      - user_memory
+      summary: Patch Memory Disabled
+      description: Disable or re-enable a saved memory entry by bucket and key.
+      operationId: patch_memory_disabled_user_memory__kind___key__disabled_patch
+      parameters:
+      - name: kind
+        in: path
+        required: true
+        schema:
+          enum:
+          - profile
+          - topic_interests
+          - task_patterns
+          - semantic_facts
+          type: string
+          title: Kind
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryDisablePatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Patch Memory Disabled User Memory  Kind   Key  Disabled Patch
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /user_memory/{kind}/{key}:
+    delete:
+      tags:
+      - user_memory
+      summary: Delete Memory Entry
+      description: Delete a single stored record by namespace ``kind`` and record ``key``.
+      operationId: delete_memory_entry_user_memory__kind___key__delete
+      parameters:
+      - name: kind
+        in: path
+        required: true
+        schema:
+          enum:
+          - profile
+          - topic_interests
+          - task_patterns
+          - semantic_facts
+          type: string
+          title: Kind
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Delete Memory Entry User Memory  Kind   Key  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /user_memory/admin/by_bucket:
+    get:
+      tags:
+      - user_memory
+      summary: Admin Memories By Bucket
+      description: 'List memories across all users in one bucket, sorted by strength desc.
+
+
+        Gated by an external API token whose row carries
+
+        ``metadata.is_memories_admin = true``. Tokens without the metadata bit get
+
+        an empty list (with ``admin_enabled=false``) so unauthorized callers cannot
+
+        enumerate which tokens are admins.'
+      operationId: admin_memories_by_bucket_user_memory_admin_by_bucket_get
+      parameters:
+      - name: bucket
+        in: query
+        required: true
+        schema:
+          enum:
+          - topic_interests
+          - task_patterns
+          - semantic_facts
+          - profile
+          type: string
+          description: Memory bucket to list across all users.
+          title: Bucket
+        description: Memory bucket to list across all users.
+      - name: min_strength
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          description: Lower bound on record strength (inclusive).
+          title: Min Strength
+        description: Lower bound on record strength (inclusive).
+      - name: max_strength
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          description: Upper bound on record strength (inclusive).
+          title: Max Strength
+        description: Upper bound on record strength (inclusive).
+      - name: created_after
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          description: Only return records created at or after this ISO timestamp.
+          title: Created After
+        description: Only return records created at or after this ISO timestamp.
+      - name: updated_after
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          description: Only return records updated at or after this ISO timestamp.
+          title: Updated After
+        description: Only return records updated at or after this ISO timestamp.
+      - name: user_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Restrict to a single user.
+          title: User Id
+        description: Restrict to a single user.
+      - name: include_disabled
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include records marked disabled.
+          default: false
+          title: Include Disabled
+        description: Include records marked disabled.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 200
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Response Admin Memories By Bucket User Memory Admin By Bucket Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    RememberRequest:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        memory:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Memory
+        thread_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Thread Id
+      type: object
+      required:
+      - user_id
+      title: RememberRequest
+      description: 'Natural-language memory write payload.
+
+
+        ``memory`` matches the current UI client. ``text`` matches the explicit API
+
+        handoff. Supporting both lets frontend and backend migrate independently.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ForgetRequest:
+      properties:
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+        phrase:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phrase
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        memory:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Memory
+        key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key
+        thread_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Thread Id
+      type: object
+      title: ForgetRequest
+      description: 'Natural-language memory delete payload.
+
+
+        ``phrase`` is the preferred field; ``text``/``memory`` are accepted as
+
+        aliases so clients can reuse the same command payload shape as remember.'
+    MemoryDisablePatch:
+      properties:
+        disabled:
+          type: boolean
+          title: Disabled
+          description: True to disable this memory entry, false to re-enable it
+      type: object
+      required:
+      - disabled
+      title: MemoryDisablePatch
+      description: Update payload for enabling/disabling one saved memory entry.
+    StrengthPatch:
+      properties:
+        strength:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Strength
+          description: New memory strength between 0 and 1
+      type: object
+      required:
+      - strength
+      title: StrengthPatch
+      description: Update payload for collection-memory strength.
+    ProfilePatch:
+      properties:
+        preferred_tone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preferred Tone
+        preferred_verbosity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preferred Verbosity
+        preferred_formats:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Preferred Formats
+        recurring_domains:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Recurring Domains
+        assistant_notes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Assistant Notes
+      type: object
+      title: ProfilePatch
+      description: Partial update payload for the stored profile document.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

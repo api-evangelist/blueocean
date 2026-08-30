@@ -1,0 +1,86 @@
+openapi: 3.2.0
+info:
+  title: Fast Upsert Widget Data API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: Upsert Widget Data
+paths:
+  /upsert_widget_data:
+    put:
+      summary: Update Widget Data
+      operationId: update_widget_data_upsert_widget_data_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WidgetDataUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Upsert Widget Data
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    WidgetDataUpdate:
+      properties:
+        thread_id:
+          type: string
+          title: Thread Id
+        thread_ts:
+          type: string
+          title: Thread Ts
+        widget_key:
+          type: string
+          title: Widget Key
+        widget_value:
+          type: object
+          title: Widget Value
+      type: object
+      required:
+      - thread_id
+      - thread_ts
+      - widget_key
+      - widget_value
+      title: WidgetDataUpdate

@@ -1,0 +1,222 @@
+openapi: 3.2.0
+info:
+  title: Fast Mock MCP API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: mock_mcp
+paths:
+  /mcp/{provider}/{app}/messages:
+    post:
+      tags:
+      - mock_mcp
+      summary: Mcp Messages Endpoint
+      description: 'Mock MCP server endpoint that handles messages.
+
+
+        This is a simplified implementation that responds to tool list requests.
+
+        In a real MCP server, this would handle the full JSON-RPC protocol.'
+      operationId: mcp_messages_endpoint_mcp__provider___app__messages_post
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: app
+        in: path
+        required: true
+        schema:
+          type: string
+          title: App
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      - name: X-Provider
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Provider
+      - name: X-App
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-App
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /mcp/{provider}/{app}/tools:
+    get:
+      tags:
+      - mock_mcp
+      summary: List Tools
+      description: 'List available tools for this MCP server.
+
+
+        This is a simplified endpoint for tool discovery.'
+      operationId: list_tools_mcp__provider___app__tools_get
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: app
+        in: path
+        required: true
+        schema:
+          type: string
+          title: App
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /mcp/{provider}/{app}/tools/call:
+    post:
+      tags:
+      - mock_mcp
+      summary: Call Tool
+      description: 'Execute a tool call.
+
+
+        Returns mock responses for testing.'
+      operationId: call_tool_mcp__provider___app__tools_call_post
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: app
+        in: path
+        required: true
+        schema:
+          type: string
+          title: App
+      - name: authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MCPCallToolRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /mcp/health:
+    get:
+      tags:
+      - mock_mcp
+      summary: Health Check
+      description: Health check endpoint for mock MCP servers.
+      operationId: health_check_mcp_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MCPCallToolRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        arguments:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Arguments
+      type: object
+      required:
+      - name
+      title: MCPCallToolRequest
+      description: MCP call_tool request format.

@@ -1,0 +1,296 @@
+openapi: 3.2.0
+info:
+  title: Fast Pipedream API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: pipedream
+paths:
+  /pipedream/mcp_accounts:
+    get:
+      tags:
+      - pipedream
+      summary: Get Mcp Accounts
+      description: 'Get accounts for all users from Pipedream Connect API and store them in MCP manager.
+
+        This endpoint fetches all user accounts and caches them for MCP server management.'
+      operationId: get_mcp_accounts_pipedream_mcp_accounts_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /pipedream/accounts:
+    get:
+      tags:
+      - pipedream
+      summary: List Accounts
+      description: List all Pipedream Connect accounts for a user.
+      operationId: list_accounts_pipedream_accounts_get
+      parameters:
+      - name: external_user_id
+        in: query
+        required: false
+        schema:
+          type: string
+          title: External User Id
+      - name: x-user-id
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-User-Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /pipedream/accounts/all:
+    get:
+      tags:
+      - pipedream
+      summary: List All Accounts
+      description: List all stored accounts for all users (admin endpoint).
+      operationId: list_all_accounts_pipedream_accounts_all_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /pipedream/connect_token:
+    post:
+      tags:
+      - pipedream
+      summary: Create Connect Token
+      operationId: create_connect_token_pipedream_connect_token_post
+      parameters:
+      - name: x-request-token
+        in: header
+        required: false
+        schema:
+          type: string
+          title: X-Request-Token
+      - name: x-user-id
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-User-Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectTokenRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /pipedream/servers:
+    get:
+      tags:
+      - pipedream
+      summary: List User Servers
+      description: 'List all MCP servers and their tools for a specific user.
+
+        Returns servers that belong to the user based on their Pipedream accounts.'
+      operationId: list_user_servers_pipedream_servers_get
+      parameters:
+      - name: external_user_id
+        in: query
+        required: false
+        schema:
+          type: string
+          title: External User Id
+      - name: x-user-id
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-User-Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /pipedream/servers/{server_name}/{app_name}:
+    delete:
+      tags:
+      - pipedream
+      summary: Unregister Mcp Server
+      description: 'Unregister/remove an MCP server from a user''s account.
+
+        Only allows removing servers that belong to the authenticated user.
+
+        Deletes the corresponding accounts from Pipedream Connect API.'
+      operationId: unregister_mcp_server_pipedream_servers__server_name___app_name__delete
+      parameters:
+      - name: server_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Server Name
+      - name: app_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: App Name
+      - name: x-user-id
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-User-Id
+      - name: x-account-id
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Account-Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /pipedream/register_mcp:
+    post:
+      tags:
+      - pipedream
+      summary: Register Mcp Server
+      description: 'Optional helper to register a Pipedream-backed MCP server once a connection succeeds.
+
+        Expects JSON: { "provider": "google_drive" | "google_sheets" | "google_docs" | "microsoft_onedrive" | "hubspot" | ..., "sessionToken": "..." }
+
+        Supported providers are listed in PIPEDREAM_SUPPORTED_APPS.'
+      operationId: register_mcp_server_pipedream_register_mcp_post
+      parameters:
+      - name: x-user-id
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-User-Id
+      - name: x-account-id
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Account-Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Payload
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ConnectTokenRequest:
+      properties:
+        external_user_id:
+          type: string
+          title: External User Id
+        app:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: App
+        session_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Token
+      type: object
+      required:
+      - external_user_id
+      title: ConnectTokenRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

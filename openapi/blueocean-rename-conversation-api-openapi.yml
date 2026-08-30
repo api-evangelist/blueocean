@@ -1,0 +1,84 @@
+openapi: 3.2.0
+info:
+  title: Fast Rename Conversation API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: Rename Conversation
+paths:
+  /rename_conversation:
+    put:
+      summary: Rename Conversation
+      operationId: rename_conversation_rename_conversation_put
+      parameters:
+      - name: thread_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Thread Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: new_title
+        in: query
+        required: true
+        schema:
+          type: string
+          title: New Title
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      tags:
+      - Rename Conversation
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

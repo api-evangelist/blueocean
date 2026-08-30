@@ -1,0 +1,438 @@
+openapi: 3.2.0
+info:
+  title: Fast Prompts API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: prompts
+paths:
+  /prompts:
+    post:
+      tags:
+      - prompts
+      summary: Create Prompt
+      description: Create a new prompt.
+      operationId: create_prompt_prompts_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prompt'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - prompts
+      summary: List Prompts
+      description: List prompts for a user with visibility permissions.
+      operationId: list_prompts_prompts_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /prompts/analytics/popular:
+    get:
+      tags:
+      - prompts
+      summary: Get Popular Prompts
+      description: Get most popular prompts by views or shares.
+      operationId: get_popular_prompts_prompts_analytics_popular_get
+      parameters:
+      - name: metric
+        in: query
+        required: false
+        schema:
+          type: string
+          default: views
+          title: Metric
+      - name: scope
+        in: query
+        required: false
+        schema:
+          type: string
+          default: all
+          title: Scope
+      - name: account_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      - name: user_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /prompts/{prompt_id}/analytics:
+    get:
+      tags:
+      - prompts
+      summary: Get Prompt Metrics
+      description: Get aggregated metrics for a specific prompt.
+      operationId: get_prompt_metrics_prompts__prompt_id__analytics_get
+      parameters:
+      - name: prompt_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Prompt Id
+      - name: account_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      - name: user_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /prompts/{prompt_id}/events:
+    post:
+      tags:
+      - prompts
+      summary: Track Prompt Event
+      description: Track a prompt view or share event.
+      operationId: track_prompt_event_prompts__prompt_id__events_post
+      parameters:
+      - name: prompt_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Prompt Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromptEvent'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /prompts/{prompt_id}/clone:
+    post:
+      tags:
+      - prompts
+      summary: Clone Prompt
+      description: Clone a prompt for the requesting user.
+      operationId: clone_prompt_prompts__prompt_id__clone_post
+      parameters:
+      - name: prompt_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Prompt Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /prompts/{prompt_id}:
+    put:
+      tags:
+      - prompts
+      summary: Update Prompt
+      description: Update an existing prompt.
+      operationId: update_prompt_prompts__prompt_id__put
+      parameters:
+      - name: prompt_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Prompt Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prompt'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - prompts
+      summary: Get Prompt
+      description: Get a prompt by ID.
+      operationId: get_prompt_prompts__prompt_id__get
+      parameters:
+      - name: prompt_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Prompt Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - prompts
+      summary: Delete Prompt
+      description: Delete a prompt (only owner can delete).
+      operationId: delete_prompt_prompts__prompt_id__delete
+      parameters:
+      - name: prompt_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Prompt Id
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PromptEvent:
+      properties:
+        eventType:
+          type: string
+          enum:
+          - views
+          - share
+          title: Eventtype
+        userId:
+          type: string
+          title: Userid
+        accountId:
+          type: string
+          title: Accountid
+      type: object
+      required:
+      - eventType
+      - userId
+      - accountId
+      title: PromptEvent
+    Prompt:
+      properties:
+        title:
+          type: string
+          title: Title
+        visibility:
+          type: string
+          enum:
+          - only-me
+          - my-account
+          - everybody
+          title: Visibility
+        prompt:
+          type: string
+          title: Prompt
+        marketingLifecycle:
+          type: string
+          title: Marketinglifecycle
+        type:
+          items:
+            type: string
+          type: array
+          title: Type
+        objective:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Objective
+        customInstructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Custominstructions
+        userId:
+          type: string
+          title: Userid
+        accountId:
+          type: string
+          title: Accountid
+      type: object
+      required:
+      - title
+      - visibility
+      - prompt
+      - marketingLifecycle
+      - type
+      - userId
+      - accountId
+      title: Prompt
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

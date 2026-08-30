@@ -1,0 +1,102 @@
+openapi: 3.2.0
+info:
+  title: Fast Pinecone API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: pinecone_api
+paths:
+  /pinecone_api/pinecone:
+    get:
+      tags:
+      - pinecone_api
+      summary: Get Pinecone
+      operationId: get_pinecone_pinecone_api_pinecone_get
+      parameters:
+      - name: query
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Query
+      - name: namespace
+        in: query
+        required: false
+        schema:
+          type: string
+          default: audience_v2_review_phrase_annotation
+          title: Namespace
+      - name: filter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Filter
+      - name: top_k
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 100
+          title: Top K
+      - name: include_values
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Values
+      - name: include_metadata
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Include Metadata
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

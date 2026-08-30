@@ -1,0 +1,630 @@
+openapi: 3.2.0
+info:
+  title: Fast OAUTH Providers API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: oauth_providers
+paths:
+  /auth/providers:
+    get:
+      tags:
+      - oauth_providers
+      summary: List Providers
+      description: List all supported OAuth providers.
+      operationId: list_providers_auth_providers_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /auth/providers/{provider}/authorize:
+    post:
+      tags:
+      - oauth_providers
+      summary: Authorize Provider
+      description: "Initiate OAuth authorization flow for a provider.\n\nSteps:\n1. Validate provider is supported\n2. Generate OAuth state and PKCE parameters\n3. Create PENDING connection in PostgreSQL\n4. Store state in memcached for callback validation\n5. Return OAuth authorization URL\n\nArgs:\n    provider: Provider name (google, microsoft, etc.)\n    request: Authorization request with user_id\n\nReturns:\n    JSON with auth_url to redirect user to"
+      operationId: authorize_provider_auth_providers__provider__authorize_post
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/{provider}/callback:
+    get:
+      tags:
+      - oauth_providers
+      summary: Oauth Callback
+      description: "Handle OAuth callback from provider.\n\nSteps:\n1. Validate state parameter\n2. Handle any OAuth errors\n3. Exchange authorization code for tokens\n4. Store encrypted credentials in PostgreSQL\n5. Update connection status to CONNECTED\n6. Redirect to success page\n\nArgs:\n    provider: Provider name\n    code: Authorization code from provider\n    state: State parameter for validation\n    error: Optional error from provider\n    error_description: Optional error description\n\nReturns:\n    HTML success page or redirect"
+      operationId: oauth_callback_auth_providers__provider__callback_get
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: code
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Code
+      - name: state
+        in: query
+        required: true
+        schema:
+          type: string
+          title: State
+      - name: error
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+      - name: error_description
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Description
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/{provider}/status:
+    get:
+      tags:
+      - oauth_providers
+      summary: Check Oauth Status
+      description: "Check if user has completed OAuth for a provider.\n\nThis is used by frontend to determine if OAuth popup is needed.\n\nArgs:\n    provider: Provider name (google, microsoft, etc.)\n    user_id: User identifier\n\nReturns:\n    { \"connected\": true/false, \"connection_id\": \"...\", \"created_at\": \"...\" }"
+      operationId: check_oauth_status_auth_providers__provider__status_get
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/{provider}/disconnect:
+    delete:
+      tags:
+      - oauth_providers
+      summary: Disconnect Provider
+      description: "Disconnect a provider for a user.\n\nArgs:\n    provider: Provider name\n    user_id: User identifier\n\nReturns:\n    Success message"
+      operationId: disconnect_provider_auth_providers__provider__disconnect_delete
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/status/all:
+    get:
+      tags:
+      - oauth_providers
+      summary: Get All Provider Status
+      description: "Get connection status for all providers for a user.\n\nArgs:\n    user_id: User identifier\n\nReturns:\n    List of provider connection statuses"
+      operationId: get_all_provider_status_auth_providers_status_all_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/servers:
+    get:
+      tags:
+      - oauth_providers
+      summary: List Provider Servers
+      description: "List all available MCP servers for a user, including both connected and unconnected.\n\nThis endpoint returns all MCP apps that are available through OAuth providers\n(like Google Drive, Sheets, Docs) AND Pipedream apps, showing which ones are\nconnected and enabled. This allows the frontend to display \"Connect\" buttons\nfor unconnected services.\n\nArgs:\n    user_id: User identifier\n    account_id: Optional account identifier for LaunchDarkly targeting\n\nReturns:\n    Array of server objects with provider, app_id, connected status, enabled status, etc."
+      operationId: list_provider_servers_auth_providers_servers_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/{provider}/servers/{service}:
+    get:
+      tags:
+      - oauth_providers
+      summary: Get Provider Server
+      description: "Retrieve a specific MCP service for a user.\n\nThis endpoint returns details for a single MCP service formatted the same way\nas items in the list_provider_servers list. Useful for checking the status\nof a specific service after enabling/disabling or for focused UI updates.\n\nArgs:\n    provider: Provider name (google, microsoft, etc.)\n    service: Service/app identifier (e.g., \"drive\", \"google_drive\", \"sheets\", etc.)\n    user_id: User identifier\n\nReturns:\n    Single server object with provider, app_id, connected status, enabled status, etc."
+      operationId: get_provider_server_auth_providers__provider__servers__service__get
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: service
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/{provider}/register:
+    post:
+      tags:
+      - oauth_providers
+      summary: Register Mcp Server
+      description: "Register MCP server for a provider after OAuth is complete.\n\nThis is the second step after OAuth authorization:\n1. OAuth authorization completes → credentials stored\n2. This endpoint → MCP server registered with agent runtime\n\nArgs:\n    provider: Provider name (google, microsoft, etc.)\n    request: Registration request with user_id\n\nReturns:\n    List of registered MCP servers in format expected by client"
+      operationId: register_mcp_server_auth_providers__provider__register_post
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterMCPRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/{provider}/servers/{service}/disable:
+    put:
+      tags:
+      - oauth_providers
+      summary: Disable Mcp Service
+      description: "Disable a specific MCP service for a user.\n\nThis removes the service's tools from the agent context without\ndeleting OAuth tokens or unregistering the connection.\n\nArgs:\n    provider: Provider name (google, microsoft, etc.)\n    service: App ID or service name (google_sheets, sheets, etc.)\n    user_id: User identifier\n\nReturns:\n    Full list of provider servers with updated enabled/disabled status"
+      operationId: disable_mcp_service_auth_providers__provider__servers__service__disable_put
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: service
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/{provider}/servers/{service}/enable:
+    put:
+      tags:
+      - oauth_providers
+      summary: Enable Mcp Service
+      description: "Re-enable a previously disabled MCP service.\n\nThis re-registers the MCP server and makes its tools available to the agent.\n\nArgs:\n    provider: Provider name (google, microsoft, etc.)\n    service: App ID or service name (google_sheets, sheets, etc.)\n    user_id: User identifier\n\nReturns:\n    Full list of provider servers with updated enabled/disabled status"
+      operationId: enable_mcp_service_auth_providers__provider__servers__service__enable_put
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Provider
+      - name: service
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Service
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      - name: account_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/mcp/servers:
+    get:
+      tags:
+      - oauth_providers
+      summary: List Mcp Servers
+      description: "List all MCP servers registered for a user.\n\nThis endpoint returns all MCP servers that have been registered via OAuth,\nincluding their connection status, tool counts, and metadata.\n\nArgs:\n    user_id: User identifier\n\nReturns:\n    List of MCP server details with OAuth provider information"
+      operationId: list_mcp_servers_auth_providers_mcp_servers_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/mcp/servers/{server_name}:
+    get:
+      tags:
+      - oauth_providers
+      summary: Get Mcp Server
+      description: "Get details for a specific MCP server.\n\nArgs:\n    server_name: Name of the MCP server\n    user_id: User identifier (for authorization)\n\nReturns:\n    Detailed server information including tools"
+      operationId: get_mcp_server_auth_providers_mcp_servers__server_name__get
+      parameters:
+      - name: server_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Server Name
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - oauth_providers
+      summary: Remove Mcp Server
+      description: "Remove/unregister an MCP server.\n\nThis only removes the MCP server registration from memory.\nThe OAuth connection remains active in the database.\nTo fully disconnect, use DELETE /auth/providers/{provider}/disconnect\n\nArgs:\n    server_name: Name of the MCP server to remove\n    user_id: User identifier (for authorization)\n\nReturns:\n    Formatted list of remaining active servers (same format as GET /mcp/servers)"
+      operationId: remove_mcp_server_auth_providers_mcp_servers__server_name__delete
+      parameters:
+      - name: server_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Server Name
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/mcp/servers/{server_name}/refresh:
+    post:
+      tags:
+      - oauth_providers
+      summary: Refresh Mcp Server
+      description: "Refresh an MCP server's tools and update its token if needed.\n\nThis is useful when:\n- Tools have been added/removed from the MCP server\n- OAuth token has been refreshed\n- Server needs to be re-initialized\n\nArgs:\n    server_name: Name of the MCP server to refresh\n    user_id: User identifier (for authorization)\n\nReturns:\n    Updated server information"
+      operationId: refresh_mcp_server_auth_providers_mcp_servers__server_name__refresh_post
+      parameters:
+      - name: server_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Server Name
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/providers/mcp/stats:
+    get:
+      tags:
+      - oauth_providers
+      summary: Get Mcp Stats
+      description: "Get MCP usage statistics for a user.\n\nArgs:\n    user_id: User identifier\n\nReturns:\n    Statistics about MCP servers and tools"
+      operationId: get_mcp_stats_auth_providers_mcp_stats_get
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AuthorizeRequest:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        redirect_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Redirect Uri
+        state_metadata:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: State Metadata
+        service:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service
+      type: object
+      required:
+      - user_id
+      title: AuthorizeRequest
+      description: Request to initiate OAuth authorization.
+    RegisterMCPRequest:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        provider:
+          type: string
+          title: Provider
+        service:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service
+        account_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      type: object
+      required:
+      - user_id
+      - provider
+      title: RegisterMCPRequest
+      description: Request to register MCP server for a provider.
