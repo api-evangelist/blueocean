@@ -293,32 +293,6 @@ apis:
     url: rate-limits/blueocean-rate-limits.yml
   - type: Lifecycle
     url: lifecycle/blueocean-lifecycle.yml
-- aid: blueocean:blueocean-oauth-providers-api
-  name: BlueOcean OAUTH Providers API
-  description: The oauth_providers API from BlueOcean — 15 operation(s) for oauth_providers.
-  humanURL: https://poseidon.blueocean.ai/api/docs
-  baseURL: https://poseidon.blueocean.ai/api
-  tags:
-  - OAuthProviders
-  tags_raw:
-  - oauth_providers
-  properties:
-  - type: OpenAPI
-    url: openapi/blueocean-oauth-providers-api-openapi.yml
-  - type: APIReference
-    url: https://poseidon.blueocean.ai/api/docs
-  - type: Authentication
-    url: authentication/blueocean-authentication.yml
-  - type: Conventions
-    url: conventions/blueocean-conventions.yml
-  - type: ErrorCatalog
-    url: errors/blueocean-problem-types.yml
-  - type: DataModel
-    url: data-model/blueocean-data-model.yml
-  - type: RateLimits
-    url: rate-limits/blueocean-rate-limits.yml
-  - type: Lifecycle
-    url: lifecycle/blueocean-lifecycle.yml
 - aid: blueocean:blueocean-pinecone-api-api
   name: BlueOcean Pinecone API
   description: The pinecone_api API from BlueOcean — 1 operation(s) for pinecone_api.
@@ -528,6 +502,30 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/blueocean-user-memory-api-openapi.yml
+  - type: APIReference
+    url: https://poseidon.blueocean.ai/api/docs
+  - type: Authentication
+    url: authentication/blueocean-authentication.yml
+  - type: Conventions
+    url: conventions/blueocean-conventions.yml
+  - type: ErrorCatalog
+    url: errors/blueocean-problem-types.yml
+  - type: DataModel
+    url: data-model/blueocean-data-model.yml
+  - type: RateLimits
+    url: rate-limits/blueocean-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-oauth-providers-api
+  name: BlueOcean OAUTH Providers API
+  description: The oauth_providers API from BlueOcean — 15 operation(s) for oauth_providers.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - oauth_providers
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-oauth-providers-api-openapi.yml
   - type: APIReference
     url: https://poseidon.blueocean.ai/api/docs
   - type: Authentication
