@@ -522,6 +522,8 @@ apis:
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
+  - OAuth Providers
+  tags_raw:
   - oauth_providers
   properties:
   - type: OpenAPI
