@@ -5,12 +5,12 @@ info:
 servers:
 - url: /api
 tags:
-- name: images
+- name: Images
 paths:
   /images/{asset_id}:
     head:
       tags:
-      - images
+      - Images
       summary: Get Generated Image
       operationId: get_generated_image_images__asset_id__head
       parameters:
@@ -34,7 +34,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     get:
       tags:
-      - images
+      - Images
       summary: Get Generated Image
       operationId: get_generated_image_images__asset_id__head
       parameters:

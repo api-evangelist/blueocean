@@ -5,12 +5,12 @@ info:
 servers:
 - url: /api
 tags:
-- name: pipedream
+- name: Pipedream
 paths:
   /pipedream/mcp_accounts:
     get:
       tags:
-      - pipedream
+      - Pipedream
       summary: Get Mcp Accounts
       description: 'Get accounts for all users from Pipedream Connect API and store them in MCP manager.
 
@@ -25,7 +25,7 @@ paths:
   /pipedream/accounts:
     get:
       tags:
-      - pipedream
+      - Pipedream
       summary: List Accounts
       description: List all Pipedream Connect accounts for a user.
       operationId: list_accounts_pipedream_accounts_get
@@ -59,7 +59,7 @@ paths:
   /pipedream/accounts/all:
     get:
       tags:
-      - pipedream
+      - Pipedream
       summary: List All Accounts
       description: List all stored accounts for all users (admin endpoint).
       operationId: list_all_accounts_pipedream_accounts_all_get
@@ -72,7 +72,7 @@ paths:
   /pipedream/connect_token:
     post:
       tags:
-      - pipedream
+      - Pipedream
       summary: Create Connect Token
       operationId: create_connect_token_pipedream_connect_token_post
       parameters:
@@ -111,7 +111,7 @@ paths:
   /pipedream/servers:
     get:
       tags:
-      - pipedream
+      - Pipedream
       summary: List User Servers
       description: 'List all MCP servers and their tools for a specific user.
 
@@ -147,7 +147,7 @@ paths:
   /pipedream/servers/{server_name}/{app_name}:
     delete:
       tags:
-      - pipedream
+      - Pipedream
       summary: Unregister Mcp Server
       description: 'Unregister/remove an MCP server from a user''s account.
 
@@ -199,7 +199,7 @@ paths:
   /pipedream/register_mcp:
     post:
       tags:
-      - pipedream
+      - Pipedream
       summary: Register Mcp Server
       description: 'Optional helper to register a Pipedream-backed MCP server once a connection succeeds.
 
@@ -254,25 +254,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ConnectTokenRequest:
-      properties:
-        external_user_id:
-          type: string
-          title: External User Id
-        app:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: App
-        session_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Token
-      type: object
-      required:
-      - external_user_id
-      title: ConnectTokenRequest
     ValidationError:
       properties:
         loc:
@@ -294,3 +275,22 @@ components:
       - msg
       - type
       title: ValidationError
+    ConnectTokenRequest:
+      properties:
+        external_user_id:
+          type: string
+          title: External User Id
+        app:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: App
+        session_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Token
+      type: object
+      required:
+      - external_user_id
+      title: ConnectTokenRequest

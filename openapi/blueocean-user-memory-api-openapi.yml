@@ -5,12 +5,12 @@ info:
 servers:
 - url: /api
 tags:
-- name: user_memory
+- name: user memory
 paths:
   /user_memory:
     get:
       tags:
-      - user_memory
+      - user memory
       summary: Get User Memory
       description: Return everything we have stored about ``user_id``.
       operationId: get_user_memory_user_memory_get
@@ -37,7 +37,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
-      - user_memory
+      - user memory
       summary: Remember User Memory
       description: Guaranteed explicit memory write used by "remember X" UI actions.
       operationId: remember_user_memory_user_memory_post
@@ -63,7 +63,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - user_memory
+      - user memory
       summary: Delete User Memory
       description: 'Delete one explicit phrase when a body is supplied, otherwise wipe all.
 
@@ -108,7 +108,7 @@ paths:
   /user_memory/saved_items:
     get:
       tags:
-      - user_memory
+      - user memory
       summary: List Saved Memory Items
       description: 'List saved memory records by bucket for UI management.
 
@@ -154,7 +154,7 @@ paths:
   /user_memory/forget:
     post:
       tags:
-      - user_memory
+      - user memory
       summary: Forget User Memory
       description: Guaranteed explicit memory delete used by "forget X" UI actions.
       operationId: forget_user_memory_user_memory_forget_post
@@ -181,7 +181,7 @@ paths:
   /user_memory/profile:
     patch:
       tags:
-      - user_memory
+      - user memory
       summary: Patch Profile
       description: 'Merge ``patch`` into the existing profile record.
 
@@ -226,7 +226,7 @@ paths:
   /user_memory/{kind}/{key}/strength:
     patch:
       tags:
-      - user_memory
+      - user memory
       summary: Patch Memory Strength
       description: 'Update a collection memory record''s strength by bucket and key.
 
@@ -282,7 +282,7 @@ paths:
   /user_memory/{kind}/{key}/disabled:
     patch:
       tags:
-      - user_memory
+      - user memory
       summary: Patch Memory Disabled
       description: Disable or re-enable a saved memory entry by bucket and key.
       operationId: patch_memory_disabled_user_memory__kind___key__disabled_patch
@@ -333,7 +333,7 @@ paths:
   /user_memory/{kind}/{key}:
     delete:
       tags:
-      - user_memory
+      - user memory
       summary: Delete Memory Entry
       description: Delete a single stored record by namespace ``kind`` and record ``key``.
       operationId: delete_memory_entry_user_memory__kind___key__delete
@@ -378,7 +378,7 @@ paths:
   /user_memory/admin/by_bucket:
     get:
       tags:
-      - user_memory
+      - user memory
       summary: Admin Memories By Bucket
       description: 'List memories across all users in one bucket, sorted by strength desc.
 
@@ -541,27 +541,51 @@ components:
         ``memory`` matches the current UI client. ``text`` matches the explicit API
 
         handoff. Supporting both lets frontend and backend migrate independently.'
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
+    ProfilePatch:
+      properties:
+        preferred_tone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preferred Tone
+        preferred_verbosity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preferred Verbosity
+        preferred_formats:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Preferred Formats
+        recurring_domains:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Recurring Domains
+        assistant_notes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Assistant Notes
+      type: object
+      title: ProfilePatch
+      description: Partial update payload for the stored profile document.
     ForgetRequest:
       properties:
         user_id:
@@ -626,48 +650,24 @@ components:
       - strength
       title: StrengthPatch
       description: Update payload for collection-memory strength.
-    ProfilePatch:
+    ValidationError:
       properties:
-        preferred_tone:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preferred Tone
-        preferred_verbosity:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preferred Verbosity
-        preferred_formats:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Preferred Formats
-        recurring_domains:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Recurring Domains
-        assistant_notes:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Assistant Notes
-      type: object
-      title: ProfilePatch
-      description: Partial update payload for the stored profile document.
-    HTTPValidationError:
-      properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

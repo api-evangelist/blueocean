@@ -5,12 +5,12 @@ info:
 servers:
 - url: /api
 tags:
-- name: prompts
+- name: Prompts
 paths:
   /prompts:
     post:
       tags:
-      - prompts
+      - Prompts
       summary: Create Prompt
       description: Create a new prompt.
       operationId: create_prompt_prompts_post
@@ -34,7 +34,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     get:
       tags:
-      - prompts
+      - Prompts
       summary: List Prompts
       description: List prompts for a user with visibility permissions.
       operationId: list_prompts_prompts_get
@@ -80,7 +80,7 @@ paths:
   /prompts/analytics/popular:
     get:
       tags:
-      - prompts
+      - Prompts
       summary: Get Popular Prompts
       description: Get most popular prompts by views or shares.
       operationId: get_popular_prompts_prompts_analytics_popular_get
@@ -138,7 +138,7 @@ paths:
   /prompts/{prompt_id}/analytics:
     get:
       tags:
-      - prompts
+      - Prompts
       summary: Get Prompt Metrics
       description: Get aggregated metrics for a specific prompt.
       operationId: get_prompt_metrics_prompts__prompt_id__analytics_get
@@ -180,7 +180,7 @@ paths:
   /prompts/{prompt_id}/events:
     post:
       tags:
-      - prompts
+      - Prompts
       summary: Track Prompt Event
       description: Track a prompt view or share event.
       operationId: track_prompt_event_prompts__prompt_id__events_post
@@ -212,7 +212,7 @@ paths:
   /prompts/{prompt_id}/clone:
     post:
       tags:
-      - prompts
+      - Prompts
       summary: Clone Prompt
       description: Clone a prompt for the requesting user.
       operationId: clone_prompt_prompts__prompt_id__clone_post
@@ -250,7 +250,7 @@ paths:
   /prompts/{prompt_id}:
     put:
       tags:
-      - prompts
+      - Prompts
       summary: Update Prompt
       description: Update an existing prompt.
       operationId: update_prompt_prompts__prompt_id__put
@@ -281,7 +281,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     get:
       tags:
-      - prompts
+      - Prompts
       summary: Get Prompt
       description: Get a prompt by ID.
       operationId: get_prompt_prompts__prompt_id__get
@@ -306,7 +306,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - prompts
+      - Prompts
       summary: Delete Prompt
       description: Delete a prompt (only owner can delete).
       operationId: delete_prompt_prompts__prompt_id__delete
@@ -346,26 +346,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    PromptEvent:
-      properties:
-        eventType:
-          type: string
-          enum:
-          - views
-          - share
-          title: Eventtype
-        userId:
-          type: string
-          title: Userid
-        accountId:
-          type: string
-          title: Accountid
-      type: object
-      required:
-      - eventType
-      - userId
-      - accountId
-      title: PromptEvent
     Prompt:
       properties:
         title:
@@ -436,3 +416,23 @@ components:
       - msg
       - type
       title: ValidationError
+    PromptEvent:
+      properties:
+        eventType:
+          type: string
+          enum:
+          - views
+          - share
+          title: Eventtype
+        userId:
+          type: string
+          title: Userid
+        accountId:
+          type: string
+          title: Accountid
+      type: object
+      required:
+      - eventType
+      - userId
+      - accountId
+      title: PromptEvent

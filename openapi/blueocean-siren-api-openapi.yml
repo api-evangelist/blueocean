@@ -305,6 +305,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     SirenSchedulePatch:
       properties:
         userId:
@@ -377,15 +386,6 @@ components:
       description: 'Partial update of schedule fields. Omitted fields are left untouched;
 
         consumers must use model_dump(exclude_unset=True).'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
