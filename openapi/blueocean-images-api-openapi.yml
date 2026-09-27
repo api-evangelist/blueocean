@@ -36,7 +36,7 @@ paths:
       tags:
       - Images
       summary: Get Generated Image
-      operationId: get_generated_image_images__asset_id__head
+      operationId: getImagesByAssetId
       parameters:
       - name: asset_id
         in: path
@@ -56,6 +56,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+      x-operation-id-source: normalized
+      x-operation-id-original: get_generated_image_images__asset_id__head
 components:
   schemas:
     HTTPValidationError:

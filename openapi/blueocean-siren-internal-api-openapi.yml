@@ -54,14 +54,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SirenRunDueRequest:
-      properties:
-        limit:
-          type: integer
-          title: Limit
-          default: 10
-      type: object
-      title: SirenRunDueRequest
     ValidationError:
       properties:
         loc:
@@ -83,3 +75,11 @@ components:
       - msg
       - type
       title: ValidationError
+    SirenRunDueRequest:
+      properties:
+        limit:
+          type: integer
+          title: Limit
+          default: 10
+      type: object
+      title: SirenRunDueRequest

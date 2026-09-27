@@ -541,51 +541,6 @@ components:
         ``memory`` matches the current UI client. ``text`` matches the explicit API
 
         handoff. Supporting both lets frontend and backend migrate independently.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ProfilePatch:
-      properties:
-        preferred_tone:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preferred Tone
-        preferred_verbosity:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preferred Verbosity
-        preferred_formats:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Preferred Formats
-        recurring_domains:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Recurring Domains
-        assistant_notes:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Assistant Notes
-      type: object
-      title: ProfilePatch
-      description: Partial update payload for the stored profile document.
     ForgetRequest:
       properties:
         user_id:
@@ -626,30 +581,6 @@ components:
         ``phrase`` is the preferred field; ``text``/``memory`` are accepted as
 
         aliases so clients can reuse the same command payload shape as remember.'
-    MemoryDisablePatch:
-      properties:
-        disabled:
-          type: boolean
-          title: Disabled
-          description: True to disable this memory entry, false to re-enable it
-      type: object
-      required:
-      - disabled
-      title: MemoryDisablePatch
-      description: Update payload for enabling/disabling one saved memory entry.
-    StrengthPatch:
-      properties:
-        strength:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Strength
-          description: New memory strength between 0 and 1
-      type: object
-      required:
-      - strength
-      title: StrengthPatch
-      description: Update payload for collection-memory strength.
     ValidationError:
       properties:
         loc:
@@ -671,3 +602,72 @@ components:
       - msg
       - type
       title: ValidationError
+    ProfilePatch:
+      properties:
+        preferred_tone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preferred Tone
+        preferred_verbosity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preferred Verbosity
+        preferred_formats:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Preferred Formats
+        recurring_domains:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Recurring Domains
+        assistant_notes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Assistant Notes
+      type: object
+      title: ProfilePatch
+      description: Partial update payload for the stored profile document.
+    MemoryDisablePatch:
+      properties:
+        disabled:
+          type: boolean
+          title: Disabled
+          description: True to disable this memory entry, false to re-enable it
+      type: object
+      required:
+      - disabled
+      title: MemoryDisablePatch
+      description: Update payload for enabling/disabling one saved memory entry.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    StrengthPatch:
+      properties:
+        strength:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Strength
+          description: New memory strength between 0 and 1
+      type: object
+      required:
+      - strength
+      title: StrengthPatch
+      description: Update payload for collection-memory strength.

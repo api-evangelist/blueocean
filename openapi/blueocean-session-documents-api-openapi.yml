@@ -231,6 +231,27 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Body_upload_session_documents_session_documents_upload_post:
       properties:
         session_token:
@@ -255,24 +276,3 @@ components:
       - account_id
       - files
       title: Body_upload_session_documents_session_documents_upload_post
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError

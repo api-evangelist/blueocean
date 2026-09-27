@@ -184,21 +184,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    MCPCallToolRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-        arguments:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Arguments
-      type: object
-      required:
-      - name
-      title: MCPCallToolRequest
-      description: MCP call_tool request format.
     ValidationError:
       properties:
         loc:
@@ -220,3 +205,18 @@ components:
       - msg
       - type
       title: ValidationError
+    MCPCallToolRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        arguments:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Arguments
+      type: object
+      required:
+      - name
+      title: MCPCallToolRequest
+      description: MCP call_tool request format.

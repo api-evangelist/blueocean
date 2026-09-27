@@ -88,6 +88,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ConnectRequest:
       properties:
         sessionToken:
@@ -112,30 +133,6 @@ components:
       - user_id
       - account_id
       title: ConnectRequest
-    ServerConfig:
-      properties:
-        name:
-          type: string
-          title: Name
-        transport:
-          type: string
-          title: Transport
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-        timeout:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Timeout
-          default: 30
-      type: object
-      required:
-      - name
-      - transport
-      title: ServerConfig
     HTTPValidationError:
       properties:
         detail:
@@ -168,24 +165,27 @@ components:
       - sessionToken
       - redirectUri
       title: OAuthStartRequest
-    ValidationError:
+    ServerConfig:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
+          title: Name
+        transport:
           type: string
-          title: Error Type
+          title: Transport
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Timeout
+          default: 30
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      - transport
+      title: ServerConfig

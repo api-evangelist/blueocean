@@ -24,9 +24,7 @@
     "blueocean-siren-internal-api-openapi.yml",
     "blueocean-user-memory-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -59,8 +57,7 @@
     "blueocean-spark-platform-openapi.json: declared missing tag: siren",
     "blueocean-spark-platform-openapi.json: declared missing tag: siren-internal",
     "blueocean-spark-platform-openapi.json: declared missing tag: user_memory",
-    "superseded outputs removed: blueocean-o-auth-providers-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 19 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "_original/blueocean-spark-platform-openapi_2.json: archived document superseded by a larger archived document",
@@ -73,7 +70,7 @@
     "blueocean-langsmith-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "blueocean-mcp-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "blueocean-mock-mcp-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "blueocean-o-auth-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "blueocean-oauth-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "blueocean-pinecone-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "blueocean-pipedream-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "blueocean-prompts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
