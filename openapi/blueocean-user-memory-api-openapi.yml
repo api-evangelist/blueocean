@@ -511,76 +511,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    RememberRequest:
-      properties:
-        user_id:
-          type: string
-          title: User Id
-        text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Text
-        memory:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Memory
-        thread_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Thread Id
-      type: object
-      required:
-      - user_id
-      title: RememberRequest
-      description: 'Natural-language memory write payload.
-
-
-        ``memory`` matches the current UI client. ``text`` matches the explicit API
-
-        handoff. Supporting both lets frontend and backend migrate independently.'
-    ForgetRequest:
-      properties:
-        user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Id
-        phrase:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phrase
-        text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Text
-        memory:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Memory
-        key:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Key
-        thread_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Thread Id
-      type: object
-      title: ForgetRequest
-      description: 'Natural-language memory delete payload.
-
-
-        ``phrase`` is the preferred field; ``text``/``memory`` are accepted as
-
-        aliases so clients can reuse the same command payload shape as remember.'
     ValidationError:
       properties:
         loc:
@@ -638,6 +568,76 @@ components:
       type: object
       title: ProfilePatch
       description: Partial update payload for the stored profile document.
+    ForgetRequest:
+      properties:
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+        phrase:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phrase
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        memory:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Memory
+        key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key
+        thread_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Thread Id
+      type: object
+      title: ForgetRequest
+      description: 'Natural-language memory delete payload.
+
+
+        ``phrase`` is the preferred field; ``text``/``memory`` are accepted as
+
+        aliases so clients can reuse the same command payload shape as remember.'
+    RememberRequest:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        memory:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Memory
+        thread_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Thread Id
+      type: object
+      required:
+      - user_id
+      title: RememberRequest
+      description: 'Natural-language memory write payload.
+
+
+        ``memory`` matches the current UI client. ``text`` matches the explicit API
+
+        handoff. Supporting both lets frontend and backend migrate independently.'
     MemoryDisablePatch:
       properties:
         disabled:
@@ -649,15 +649,6 @@ components:
       - disabled
       title: MemoryDisablePatch
       description: Update payload for enabling/disabling one saved memory entry.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     StrengthPatch:
       properties:
         strength:
@@ -671,3 +662,12 @@ components:
       - strength
       title: StrengthPatch
       description: Update payload for collection-memory strength.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

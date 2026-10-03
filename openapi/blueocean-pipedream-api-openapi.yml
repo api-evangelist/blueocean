@@ -245,6 +245,25 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ConnectTokenRequest:
+      properties:
+        external_user_id:
+          type: string
+          title: External User Id
+        app:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: App
+        session_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Token
+      type: object
+      required:
+      - external_user_id
+      title: ConnectTokenRequest
     HTTPValidationError:
       properties:
         detail:
@@ -275,22 +294,3 @@ components:
       - msg
       - type
       title: ValidationError
-    ConnectTokenRequest:
-      properties:
-        external_user_id:
-          type: string
-          title: External User Id
-        app:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: App
-        session_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Token
-      type: object
-      required:
-      - external_user_id
-      title: ConnectTokenRequest

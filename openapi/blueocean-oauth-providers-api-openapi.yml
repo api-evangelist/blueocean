@@ -818,6 +818,31 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    AuthorizeRequest:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        redirect_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Redirect Uri
+        state_metadata:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: State Metadata
+        service:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service
+      type: object
+      required:
+      - user_id
+      title: AuthorizeRequest
+      description: Request to initiate OAuth authorization.
     HTTPValidationError:
       properties:
         detail:
@@ -872,28 +897,3 @@ components:
       - provider
       title: RegisterMCPRequest
       description: Request to register MCP server for a provider.
-    AuthorizeRequest:
-      properties:
-        user_id:
-          type: string
-          title: User Id
-        redirect_uri:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Redirect Uri
-        state_metadata:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: State Metadata
-        service:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Service
-      type: object
-      required:
-      - user_id
-      title: AuthorizeRequest
-      description: Request to initiate OAuth authorization.
