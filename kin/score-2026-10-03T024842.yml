@@ -1,21 +1,19 @@
-# Kin Score artifact — blueocean — 2026-08-25T154045
+# Kin Score artifact — blueocean — 2026-10-03T024842
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: blueocean
-  schema_version: 0.14.0
-  scored_at: '2026-08-25'
-  run_ts: 2026-08-25T154045
-  composite: 32.4
+  schema_version: 0.23.0
+  scored_at: '2026-10-03'
+  run_ts: 2026-10-03T024842
+  composite: 32.6
   band: thin
   facets:
-    discoverability: 75.9
-    contract_quality: 43.4
-    governance: 30.3
+    discoverability: 73.2
+    contract_quality: 41.4
+    contract_governance: 18.2
     operational_transparency: 2.6
-    developer_ergonomics: 14.3
-    commercial_clarity: 35.5
-    contract_governance: 30.3
+    developer_ergonomics: 21.4
     access_clarity: 35.5
   agent_readiness:
     score: 23.7
@@ -40,11 +38,17 @@ kin_score:
       protected_resource_metadata: false
       dynamic_client_registration: false
       agentic_commerce: false
+  regulatory:
+    applies: true
+    regime: Horizontal (data, software, accessibility, platform)
+    regime_id: horizontal
+    score: 27.3
+    matched_via: fallback
   provenance:
     mcp: derived
     conformance: first-party
     contracts:
-      total: 1
+      total: 19
       derived: 0
       coverage: 0.0
       callable: 0.0

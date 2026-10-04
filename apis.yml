@@ -425,6 +425,8 @@ apis:
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
+  - Siren
+  tags_raw:
   - siren
   properties:
   - type: OpenAPI
