@@ -305,108 +305,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SirenSchedulePatch:
-      properties:
-        userId:
-          type: string
-          title: Userid
-        accountId:
-          type: string
-          title: Accountid
-        frequency:
-          anyOf:
-          - type: string
-            enum:
-            - daily
-            - weekly
-            - monthly
-          - type: 'null'
-          title: Frequency
-        cronExpression:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cronexpression
-        timezone:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Timezone
-        status:
-          anyOf:
-          - type: string
-            enum:
-            - active
-            - paused
-          - type: 'null'
-          title: Status
-        notifyPolicy:
-          anyOf:
-          - type: string
-            enum:
-            - never
-            - insightful
-            - always
-          - type: 'null'
-          title: Notifypolicy
-        notificationEmail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Notificationemail
-        guidance:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Guidance
-        potentiallyUsefulContext:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Potentiallyusefulcontext
-        chatContext:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Chatcontext
-      type: object
-      required:
-      - userId
-      - accountId
-      title: SirenSchedulePatch
-      description: 'Partial update of schedule fields. Omitted fields are left untouched;
-
-        consumers must use model_dump(exclude_unset=True).'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     SirenScheduleCreate:
       properties:
         userId:
@@ -515,3 +413,105 @@ components:
       description: 'Create a Siren schedule, either for an existing library prompt (promptId)
 
         or by upgrading inline prompt text into the library first (promptText).'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SirenSchedulePatch:
+      properties:
+        userId:
+          type: string
+          title: Userid
+        accountId:
+          type: string
+          title: Accountid
+        frequency:
+          anyOf:
+          - type: string
+            enum:
+            - daily
+            - weekly
+            - monthly
+          - type: 'null'
+          title: Frequency
+        cronExpression:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cronexpression
+        timezone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Timezone
+        status:
+          anyOf:
+          - type: string
+            enum:
+            - active
+            - paused
+          - type: 'null'
+          title: Status
+        notifyPolicy:
+          anyOf:
+          - type: string
+            enum:
+            - never
+            - insightful
+            - always
+          - type: 'null'
+          title: Notifypolicy
+        notificationEmail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notificationemail
+        guidance:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Guidance
+        potentiallyUsefulContext:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Potentiallyusefulcontext
+        chatContext:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Chatcontext
+      type: object
+      required:
+      - userId
+      - accountId
+      title: SirenSchedulePatch
+      description: 'Partial update of schedule fields. Omitted fields are left untouched;
+
+        consumers must use model_dump(exclude_unset=True).'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

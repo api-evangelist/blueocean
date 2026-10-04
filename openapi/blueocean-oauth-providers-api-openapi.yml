@@ -818,6 +818,51 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    RegisterMCPRequest:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        provider:
+          type: string
+          title: Provider
+        service:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service
+        account_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      type: object
+      required:
+      - user_id
+      - provider
+      title: RegisterMCPRequest
+      description: Request to register MCP server for a provider.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     AuthorizeRequest:
       properties:
         user_id:
@@ -852,48 +897,3 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    RegisterMCPRequest:
-      properties:
-        user_id:
-          type: string
-          title: User Id
-        provider:
-          type: string
-          title: Provider
-        service:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Service
-        account_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Id
-      type: object
-      required:
-      - user_id
-      - provider
-      title: RegisterMCPRequest
-      description: Request to register MCP server for a provider.
