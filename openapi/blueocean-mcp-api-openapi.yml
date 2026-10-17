@@ -112,38 +112,6 @@ components:
       - user_id
       - account_id
       title: ConnectRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OAuthStartRequest:
-      properties:
-        sessionToken:
-          type: string
-          title: Sessiontoken
-        redirectUri:
-          type: string
-          title: Redirecturi
-        user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Id
-        account_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Id
-      type: object
-      required:
-      - sessionToken
-      - redirectUri
-      title: OAuthStartRequest
     ValidationError:
       properties:
         loc:
@@ -189,3 +157,35 @@ components:
       - name
       - transport
       title: ServerConfig
+    OAuthStartRequest:
+      properties:
+        sessionToken:
+          type: string
+          title: Sessiontoken
+        redirectUri:
+          type: string
+          title: Redirecturi
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+        account_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      type: object
+      required:
+      - sessionToken
+      - redirectUri
+      title: OAuthStartRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

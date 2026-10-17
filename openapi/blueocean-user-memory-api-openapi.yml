@@ -511,26 +511,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    MemoryDisablePatch:
-      properties:
-        disabled:
-          type: boolean
-          title: Disabled
-          description: True to disable this memory entry, false to re-enable it
-      type: object
-      required:
-      - disabled
-      title: MemoryDisablePatch
-      description: Update payload for enabling/disabling one saved memory entry.
     ValidationError:
       properties:
         loc:
@@ -552,59 +532,6 @@ components:
       - msg
       - type
       title: ValidationError
-    StrengthPatch:
-      properties:
-        strength:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Strength
-          description: New memory strength between 0 and 1
-      type: object
-      required:
-      - strength
-      title: StrengthPatch
-      description: Update payload for collection-memory strength.
-    ForgetRequest:
-      properties:
-        user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Id
-        phrase:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phrase
-        text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Text
-        memory:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Memory
-        key:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Key
-        thread_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Thread Id
-      type: object
-      title: ForgetRequest
-      description: 'Natural-language memory delete payload.
-
-
-        ``phrase`` is the preferred field; ``text``/``memory`` are accepted as
-
-        aliases so clients can reuse the same command payload shape as remember.'
     ProfilePatch:
       properties:
         preferred_tone:
@@ -671,3 +598,76 @@ components:
         ``memory`` matches the current UI client. ``text`` matches the explicit API
 
         handoff. Supporting both lets frontend and backend migrate independently.'
+    MemoryDisablePatch:
+      properties:
+        disabled:
+          type: boolean
+          title: Disabled
+          description: True to disable this memory entry, false to re-enable it
+      type: object
+      required:
+      - disabled
+      title: MemoryDisablePatch
+      description: Update payload for enabling/disabling one saved memory entry.
+    ForgetRequest:
+      properties:
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+        phrase:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phrase
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        memory:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Memory
+        key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key
+        thread_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Thread Id
+      type: object
+      title: ForgetRequest
+      description: 'Natural-language memory delete payload.
+
+
+        ``phrase`` is the preferred field; ``text``/``memory`` are accepted as
+
+        aliases so clients can reuse the same command payload shape as remember.'
+    StrengthPatch:
+      properties:
+        strength:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Strength
+          description: New memory strength between 0 and 1
+      type: object
+      required:
+      - strength
+      title: StrengthPatch
+      description: Update payload for collection-memory strength.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
