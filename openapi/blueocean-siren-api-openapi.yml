@@ -303,80 +303,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /siren/unsubscribe:
+    post:
+      tags:
+      - siren
+      summary: Unsubscribe
+      description: 'Signed one-click unsubscribe relayed by the public frontend page.
+
+
+        No bearer token and no feature-flag gate — the recipient is logged out and
+
+        links in already-sent emails must keep working. The HMAC signature in the
+
+        body is the entire authorization (see api_unsubscribe).'
+      operationId: unsubscribe_siren_unsubscribe_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SirenUnsubscribeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SirenSchedulePatch:
-      properties:
-        userId:
-          type: string
-          title: Userid
-        accountId:
-          type: string
-          title: Accountid
-        frequency:
-          anyOf:
-          - type: string
-            enum:
-            - daily
-            - weekly
-            - monthly
-          - type: 'null'
-          title: Frequency
-        cronExpression:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cronexpression
-        timezone:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Timezone
-        status:
-          anyOf:
-          - type: string
-            enum:
-            - active
-            - paused
-          - type: 'null'
-          title: Status
-        notifyPolicy:
-          anyOf:
-          - type: string
-            enum:
-            - never
-            - insightful
-            - always
-          - type: 'null'
-          title: Notifypolicy
-        notificationEmail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Notificationemail
-        guidance:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Guidance
-        potentiallyUsefulContext:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Potentiallyusefulcontext
-        chatContext:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Chatcontext
-      type: object
-      required:
-      - userId
-      - accountId
-      title: SirenSchedulePatch
-      description: 'Partial update of schedule fields. Omitted fields are left untouched;
-
-        consumers must use model_dump(exclude_unset=True).'
     SirenScheduleCreate:
       properties:
         userId:
@@ -477,6 +437,14 @@ components:
           - type: string
           - type: 'null'
           title: Sourcethreadts
+        recipients:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SirenScheduleRecipient'
+            type: array
+            maxItems: 50
+          - type: 'null'
+          title: Recipients
       type: object
       required:
       - userId
@@ -506,6 +474,78 @@ components:
       - msg
       - type
       title: ValidationError
+    SirenSchedulePatch:
+      properties:
+        userId:
+          type: string
+          title: Userid
+        accountId:
+          type: string
+          title: Accountid
+        frequency:
+          anyOf:
+          - type: string
+            enum:
+            - daily
+            - weekly
+            - monthly
+          - type: 'null'
+          title: Frequency
+        cronExpression:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cronexpression
+        timezone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Timezone
+        status:
+          anyOf:
+          - type: string
+            enum:
+            - active
+            - paused
+          - type: 'null'
+          title: Status
+        notifyPolicy:
+          anyOf:
+          - type: string
+            enum:
+            - never
+            - insightful
+            - always
+          - type: 'null'
+          title: Notifypolicy
+        notificationEmail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notificationemail
+        guidance:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Guidance
+        potentiallyUsefulContext:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Potentiallyusefulcontext
+        chatContext:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Chatcontext
+      type: object
+      required:
+      - userId
+      - accountId
+      title: SirenSchedulePatch
+      description: 'Partial update of schedule fields. Omitted fields are left untouched;
+
+        consumers must use model_dump(exclude_unset=True).'
     HTTPValidationError:
       properties:
         detail:
@@ -515,3 +555,66 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    SirenUnsubscribeRequest:
+      properties:
+        sid:
+          type: string
+          maxLength: 64
+          minLength: 1
+          title: Sid
+        uid:
+          type: string
+          maxLength: 128
+          minLength: 1
+          title: Uid
+        sig:
+          type: string
+          maxLength: 128
+          minLength: 1
+          title: Sig
+      type: object
+      required:
+      - sid
+      - uid
+      - sig
+      title: SirenUnsubscribeRequest
+      description: 'Signed unsubscribe request relayed by the public frontend page.
+
+        ``sig`` is the HMAC the email link carried; no auth token involved.
+
+        Length caps bound what an unauthenticated caller can push into logs.'
+    SirenScheduleRecipient:
+      properties:
+        userId:
+          type: string
+          maxLength: 128
+          minLength: 1
+          title: Userid
+        email:
+          type: string
+          maxLength: 254
+          minLength: 3
+          title: Email
+        displayName:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Displayname
+      type: object
+      required:
+      - userId
+      - email
+      title: SirenScheduleRecipient
+      description: 'One account user the schedule is shared with. All fields are
+
+        client-supplied (there is no backend user directory); the API layer
+
+        caps the recipient count and drops the creator from their own list.
+
+
+        These values reach the database, logs, and the Resend API, so the model
+
+        bounds their lengths and rejects malformed addresses (whitespace/control
+
+        characters, empty local part) before any of that.'

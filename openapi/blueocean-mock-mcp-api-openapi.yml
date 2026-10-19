@@ -175,21 +175,15 @@ paths:
               schema: {}
 components:
   schemas:
-    MCPCallToolRequest:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-        arguments:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Arguments
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      title: MCPCallToolRequest
-      description: MCP call_tool request format.
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -211,12 +205,18 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    MCPCallToolRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          title: Name
+        arguments:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Arguments
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      title: MCPCallToolRequest
+      description: MCP call_tool request format.

@@ -1,0 +1,1096 @@
+openapi: 3.2.0
+info:
+  title: Fast Brand Assets API
+  version: 0.1.0
+servers:
+- url: /api
+tags:
+- name: brand_assets
+paths:
+  /brand-assets/logos/upload:
+    post:
+      tags:
+      - brand_assets
+      summary: Upload Logos
+      operationId: upload_logos_brand_assets_logos_upload_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_logos_brand_assets_logos_upload_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/logos:
+    get:
+      tags:
+      - brand_assets
+      summary: List Logos
+      operationId: list_logos_brand_assets_logos_get
+      parameters:
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/logos/{logo_id}/image:
+    get:
+      tags:
+      - brand_assets
+      summary: Get Logo Image
+      operationId: get_logo_image_brand_assets_logos__logo_id__image_get
+      parameters:
+      - name: logo_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Logo Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    head:
+      tags:
+      - brand_assets
+      summary: Get Logo Image
+      operationId: headBrandAssetsLogosByLogoIdImage
+      parameters:
+      - name: logo_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Logo Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-operation-id-source: normalized
+      x-operation-id-original: get_logo_image_brand_assets_logos__logo_id__image_get
+  /brand-assets/logos/{logo_id}:
+    patch:
+      tags:
+      - brand_assets
+      summary: Patch Logo
+      operationId: patch_logo_brand_assets_logos__logo_id__patch
+      parameters:
+      - name: logo_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Logo Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - brand_assets
+      summary: Delete Logo Endpoint
+      operationId: delete_logo_endpoint_brand_assets_logos__logo_id__delete
+      parameters:
+      - name: logo_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Logo Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/style-guide/upload:
+    post:
+      tags:
+      - brand_assets
+      summary: Upload Style Guide
+      operationId: upload_style_guide_brand_assets_style_guide_upload_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_style_guide_brand_assets_style_guide_upload_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/style-guide/url:
+    put:
+      tags:
+      - brand_assets
+      summary: Put Style Guide Url
+      operationId: put_style_guide_url_brand_assets_style_guide_url_put
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuideUrl'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/style-guide/analyze:
+    post:
+      tags:
+      - brand_assets
+      summary: Analyze Style Guide Endpoint
+      operationId: analyze_style_guide_endpoint_brand_assets_style_guide_analyze_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuideAnalyzeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/style-guide:
+    get:
+      tags:
+      - brand_assets
+      summary: Get Style Guide
+      operationId: get_style_guide_brand_assets_style_guide_get
+      parameters:
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - brand_assets
+      summary: Patch Style Guide
+      operationId: patch_style_guide_brand_assets_style_guide_patch
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidePatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - brand_assets
+      summary: Delete Style Guide Endpoint
+      operationId: delete_style_guide_endpoint_brand_assets_style_guide_delete
+      parameters:
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/style-guide/{guide_id}/file:
+    get:
+      tags:
+      - brand_assets
+      summary: Get Style Guide File
+      operationId: get_style_guide_file_brand_assets_style_guide__guide_id__file_get
+      parameters:
+      - name: guide_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Guide Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    head:
+      tags:
+      - brand_assets
+      summary: Get Style Guide File
+      operationId: headBrandAssetsStyleGuideByGuideIdFile
+      parameters:
+      - name: guide_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Guide Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-operation-id-source: normalized
+      x-operation-id-original: get_style_guide_file_brand_assets_style_guide__guide_id__file_get
+  /brand-assets/colors:
+    get:
+      tags:
+      - brand_assets
+      summary: List Colors
+      operationId: list_colors_brand_assets_colors_get
+      parameters:
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - brand_assets
+      summary: Create Color
+      operationId: create_color_brand_assets_colors_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColorCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/colors/{color_id}:
+    patch:
+      tags:
+      - brand_assets
+      summary: Patch Color
+      operationId: patch_color_brand_assets_colors__color_id__patch
+      parameters:
+      - name: color_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Color Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ColorPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - brand_assets
+      summary: Delete Color Endpoint
+      operationId: delete_color_endpoint_brand_assets_colors__color_id__delete
+      parameters:
+      - name: color_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Color Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/messaging:
+    get:
+      tags:
+      - brand_assets
+      summary: Get Messaging
+      operationId: get_messaging_brand_assets_messaging_get
+      parameters:
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - brand_assets
+      summary: Patch Messaging
+      operationId: patch_messaging_brand_assets_messaging_patch
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessagingPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/messaging/generate:
+    post:
+      tags:
+      - brand_assets
+      summary: Generate Messaging
+      operationId: generate_messaging_brand_assets_messaging_generate_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_generate_messaging_brand_assets_messaging_generate_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/messaging/apply-generated:
+    post:
+      tags:
+      - brand_assets
+      summary: Apply Generated Messaging
+      operationId: apply_generated_messaging_brand_assets_messaging_apply_generated_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessagingApplyGenerated'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/fonts/upload:
+    post:
+      tags:
+      - brand_assets
+      summary: Upload Fonts
+      operationId: upload_fonts_brand_assets_fonts_upload_post
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_fonts_brand_assets_fonts_upload_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/fonts:
+    get:
+      tags:
+      - brand_assets
+      summary: List Fonts
+      operationId: list_fonts_brand_assets_fonts_get
+      parameters:
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /brand-assets/fonts/{font_id}/file:
+    get:
+      tags:
+      - brand_assets
+      summary: Get Font File
+      operationId: get_font_file_brand_assets_fonts__font_id__file_get
+      parameters:
+      - name: font_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Font Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    head:
+      tags:
+      - brand_assets
+      summary: Get Font File
+      operationId: headBrandAssetsFontsByFontIdFile
+      parameters:
+      - name: font_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Font Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-operation-id-source: normalized
+      x-operation-id-original: get_font_file_brand_assets_fonts__font_id__file_get
+  /brand-assets/fonts/{font_id}:
+    delete:
+      tags:
+      - brand_assets
+      summary: Delete Font Endpoint
+      operationId: delete_font_endpoint_brand_assets_fonts__font_id__delete
+      parameters:
+      - name: font_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Font Id
+      - name: account_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Account Id
+      - name: Authorization
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Authorization
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    LogoPatch:
+      properties:
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - description
+      title: LogoPatch
+    ColorPatch:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      title: ColorPatch
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ColorCreate:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        hex:
+          type: string
+          title: Hex
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      additionalProperties: false
+      type: object
+      required:
+      - account_id
+      - hex
+      title: ColorCreate
+    MessagingPatch:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - account_id
+      - content
+      title: MessagingPatch
+    Body_upload_fonts_brand_assets_fonts_upload_post:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        files:
+          items:
+            type: string
+            format: binary
+          type: array
+          title: Files
+      type: object
+      required:
+      - account_id
+      - files
+      title: Body_upload_fonts_brand_assets_fonts_upload_post
+    GuidePatch:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - account_id
+      - content
+      title: GuidePatch
+    GuideUrl:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - account_id
+      - url
+      title: GuideUrl
+    Body_generate_messaging_brand_assets_messaging_generate_post:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+        brand_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Brand Name
+        files:
+          items:
+            type: string
+            format: binary
+          type: array
+          title: Files
+          default: []
+      type: object
+      required:
+      - account_id
+      title: Body_generate_messaging_brand_assets_messaging_generate_post
+    Body_upload_logos_brand_assets_logos_upload_post:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        files:
+          items:
+            type: string
+            format: binary
+          type: array
+          title: Files
+      type: object
+      required:
+      - account_id
+      - files
+      title: Body_upload_logos_brand_assets_logos_upload_post
+    MessagingApplyGenerated:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+      type: object
+      required:
+      - account_id
+      title: MessagingApplyGenerated
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GuideAnalyzeRequest:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        source:
+          anyOf:
+          - type: string
+            enum:
+            - document
+            - url
+          - type: 'null'
+          title: Source
+      type: object
+      required:
+      - account_id
+      title: GuideAnalyzeRequest
+    Body_upload_style_guide_brand_assets_style_guide_upload_post:
+      properties:
+        account_id:
+          type: string
+          title: Account Id
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - account_id
+      - file
+      title: Body_upload_style_guide_brand_assets_style_guide_upload_post

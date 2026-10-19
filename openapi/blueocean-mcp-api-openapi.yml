@@ -133,6 +133,29 @@ components:
       - msg
       - type
       title: ValidationError
+    OAuthStartRequest:
+      properties:
+        sessionToken:
+          type: string
+          title: Sessiontoken
+        redirectUri:
+          type: string
+          title: Redirecturi
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+        account_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Id
+      type: object
+      required:
+      - sessionToken
+      - redirectUri
+      title: OAuthStartRequest
     ServerConfig:
       properties:
         name:
@@ -157,29 +180,6 @@ components:
       - name
       - transport
       title: ServerConfig
-    OAuthStartRequest:
-      properties:
-        sessionToken:
-          type: string
-          title: Sessiontoken
-        redirectUri:
-          type: string
-          title: Redirecturi
-        user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Id
-        account_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Id
-      type: object
-      required:
-      - sessionToken
-      - redirectUri
-      title: OAuthStartRequest
     HTTPValidationError:
       properties:
         detail:

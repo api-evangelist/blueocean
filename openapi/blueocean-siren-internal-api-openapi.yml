@@ -45,14 +45,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    SirenRunDueRequest:
+    HTTPValidationError:
       properties:
-        limit:
-          type: integer
-          title: Limit
-          default: 10
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      title: SirenRunDueRequest
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -74,12 +75,11 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    SirenRunDueRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        limit:
+          type: integer
+          title: Limit
+          default: 10
       type: object
-      title: HTTPValidationError
+      title: SirenRunDueRequest

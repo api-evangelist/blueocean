@@ -544,6 +544,16 @@ apis:
     url: rate-limits/blueocean-rate-limits.yml
   - type: Lifecycle
     url: lifecycle/blueocean-lifecycle.yml
+- aid: blueocean:blueocean-brand-assets-api
+  name: BlueOcean Brand Assets API
+  description: The brand_assets API from BlueOcean — 18 operation(s) for brand_assets.
+  humanURL: https://poseidon.blueocean.ai/api/docs
+  baseURL: https://poseidon.blueocean.ai/api
+  tags:
+  - brand_assets
+  properties:
+  - type: OpenAPI
+    url: openapi/blueocean-brand-assets-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

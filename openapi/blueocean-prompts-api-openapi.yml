@@ -337,6 +337,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Prompt:
       properties:
         title:
@@ -386,26 +395,6 @@ components:
       - userId
       - accountId
       title: Prompt
-    PromptEvent:
-      properties:
-        eventType:
-          type: string
-          enum:
-          - views
-          - share
-          title: Eventtype
-        userId:
-          type: string
-          title: Userid
-        accountId:
-          type: string
-          title: Accountid
-      type: object
-      required:
-      - eventType
-      - userId
-      - accountId
-      title: PromptEvent
     ValidationError:
       properties:
         loc:
@@ -427,12 +416,23 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    PromptEvent:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        eventType:
+          type: string
+          enum:
+          - views
+          - share
+          title: Eventtype
+        userId:
+          type: string
+          title: Userid
+        accountId:
+          type: string
+          title: Accountid
       type: object
-      title: HTTPValidationError
+      required:
+      - eventType
+      - userId
+      - accountId
+      title: PromptEvent

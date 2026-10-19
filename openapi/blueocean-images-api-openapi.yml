@@ -8,11 +8,11 @@ tags:
 - name: Images
 paths:
   /images/{asset_id}:
-    head:
+    get:
       tags:
       - Images
       summary: Get Generated Image
-      operationId: get_generated_image_images__asset_id__head
+      operationId: get_generated_image_images__asset_id__get
       parameters:
       - name: asset_id
         in: path
@@ -32,11 +32,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-    get:
+    head:
       tags:
       - Images
       summary: Get Generated Image
-      operationId: getImagesByAssetId
+      operationId: headImagesByAssetId
       parameters:
       - name: asset_id
         in: path
@@ -57,9 +57,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
       x-operation-id-source: normalized
-      x-operation-id-original: get_generated_image_images__asset_id__head
+      x-operation-id-original: get_generated_image_images__asset_id__get
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -81,12 +90,3 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
