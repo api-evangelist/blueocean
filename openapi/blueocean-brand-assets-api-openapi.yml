@@ -1094,3 +1094,9 @@ components:
       - account_id
       - file
       title: Body_upload_style_guide_brand_assets_style_guide_upload_post
+x-provenance:
+  method: harvested
+  publisher: BlueOcean
+  source: https://poseidon.blueocean.ai/api/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
