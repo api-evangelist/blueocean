@@ -550,6 +550,8 @@ apis:
   humanURL: https://poseidon.blueocean.ai/api/docs
   baseURL: https://poseidon.blueocean.ai/api
   tags:
+  - Brand Assets
+  tags_raw:
   - brand_assets
   properties:
   - type: OpenAPI
